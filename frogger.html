@@ -1,0 +1,106 @@
+
+<html>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec4 vColor;
+varying vec4 fColor;
+
+// Model: map from object's coordinate system to world space
+// View: From world space to camera space
+// Projection: From camera to screen
+uniform mat4 projection;
+uniform mat4 modelview;
+
+void main() 
+{
+    fColor = vColor;
+    gl_Position = projection * modelview * vPosition;
+} 
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+   
+varying vec4 fColor;
+
+void
+main()
+{
+    gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="Common/webgl-utils.js"></script>
+<script type="text/javascript" src="Common/initShaders.js"></script>
+<script type="text/javascript" src="Common/MV.js"></script>
+<script type="text/javascript" src="js/globals.js"></script>
+<script type="text/javascript" src="js/controller.js"></script>
+<script type="text/javascript" src="js/butterfly.js"></script>
+<script type="text/javascript" src="js/environment.js"></script>
+<script type="text/javascript" src="js/entity-manager.js"></script>
+<script type="text/javascript" src="js/flockAlgorithm.js"></script>
+<script type="text/javascript" src="js/butterflyWorld.js"></script>
+
+
+
+<body>
+	<ul id="sliderList">
+		<li>
+			<div>
+				Butterflies:  0 <input id="butterflySlider" min="0" max="50" step="1" value="5" type="range">
+				 50
+				</div>
+				<div>
+				Current Value: <span id="butterflyVal"></span>
+				</div>
+			</div>
+		<li>
+			<div>
+			Separation:  0 <input id="separationSlider" min="0" max="100" step="1" value="0" type="range">
+			 100
+			</div>
+			<div>
+			Current Value: <span id="separationVal"></span>
+			</div>
+		</li>
+		<li>
+			<div>
+			Alignment:  0 <input id="alignmentSlider" min="0" max="100" step="1" value="0" type="range">
+			 100
+			</div>
+			<div>
+			Current Value: <span id="alignmentVal"></span>
+			</div>
+		</li>
+		<li>
+			<div>
+			Cohesion:  0 <input id="cohesionSlider" min="0" max="100" step="1" value="0" type="range">
+			 100
+			</div>
+			<div>
+			Current Value: <span id="cohesionVal"></span>
+			</div>
+		</li>		
+		<li>
+			<div>
+			Range:  0 <input id="rangeSlider" min="0" max="10" step="1" value="6" type="range">
+			 6
+			</div>
+			<div>
+			Current Value: <span id="rangeVal"></span>
+			</div>
+		</li>
+
+	</ul>
+	<canvas id="gl-canvas" width="1000" height="800">
+	Oops ... your browser doesn't support the HTML5 canvas element
+	</canvas>
+   
+<br/>
+
+</body>
+</html>
