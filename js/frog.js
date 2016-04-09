@@ -61,20 +61,6 @@ Frog.prototype.update = function(du) {
     spatialManager.register(this);
 
 
-
-    var currDir = vec3(this.rx, this.ry, this.rz);
-    var newDir = flockAlgorithm.updateDirection(this);
-    var a = angle(currDir, newDir);
-    if(a > 15) newDir = normalize(add(currDir, scale(0.01, newDir)));
-
-    this.rx = newDir[0];
-    this.ry = newDir[1];
-    this.rz = newDir[2];
-
-    this.cx += this.rx*this.vel;
-    this.cy += this.ry*this.vel;
-    this.cz += this.rz*this.vel;
-
     this.updateMV();    
 }
 

@@ -5,6 +5,7 @@ var entityManager = {
 	_frog : [new Frog({lane: 0})], // may need changing
 	_cars : [],
 	_logs : [],
+    KILL_ME_NOW : -1,
 
 	// PUBLIC METHODS
 
@@ -45,7 +46,7 @@ var entityManager = {
 			var aCategory = this._categories[c];
 			var i = 0;
 			while (i < aCategory.length) {
-				if(aCategory[i].update(du) === KILL_ME_NOW) aCategory.splice(i,1);
+				if(aCategory[i].update(du) === this.KILL_ME_NOW) aCategory.splice(i,1);
 				else i++;
 			}
 		}
