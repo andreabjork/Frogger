@@ -5,13 +5,17 @@
 // Web GL gl, buffers, program etc
 var gl;
 var canvas;
-var cBuffer;
-var vBuffer;
-var program;
+var colLoc;
 var mv;
 
+
+// Grid stuff
 var numLogLanes = 4;
 var numCarLanes = 3;
+
+var laneDepth = 4.0;
+var worldWidth = 40.0;
+var laneSpacing = 0.1;
 
 // Location of projection and model-view matrices
 var proLoc;
@@ -62,8 +66,8 @@ var indices = [
     0, 1, 5
 ];
 
-// Litir hnútanna, upphafsstillt i butterflyWorld
-var colors;
+// keys
+var g_keys = [];
 
 // The "nominal interval" is the one that all of our time-based units are
 // calibrated to e.g. a velocity unit is "pixels per nominal interval"

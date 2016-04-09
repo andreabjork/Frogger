@@ -18,10 +18,42 @@ window.onkeydown = function(e) {
 
 window.onload = function init() {
     // Set up web gl and then start the main loop:
-    controller.initSliders();
     initWebgl();
     main.init();
 };
+
+
+
+// =========
+// KEY STUFF
+// =========
+
+function handleKeydown(evt) {
+    g_keys[evt.keyCode] = true;
+}
+
+function handleKeyup(evt) {
+    g_keys[evt.keyCode] = false;
+}
+
+// Inspects, and then clears, a key's state
+//
+// This allows a keypress to be "one-shot" e.g. for toggles
+// ..until the auto-repeat kicks in, that is.
+//
+function eatKey(keyCode) {
+    var isDown = g_keys[keyCode];
+    g_keys[keyCode] = false;
+    return isDown;
+}
+
+// A tiny little convenience function
+function keyCode(keyChar) {
+    return keyChar.charCodeAt(0);
+}
+
+window.addEventListener("keydown", handleKeydown);
+window.addEventListener("keyup", handleKeyup);
 
 // =====================
 // WEB GL INITIALIZATION
@@ -38,47 +70,38 @@ function initWebgl() {
     gl.viewport( 0, 0, canvas.width, canvas.height );
     gl.clearColor( 0.9, 1.0, 1.0, 1.0 );
     //  Load shaders and initialize attribute buffers
-    program = initShaders( gl, "vertex-shader", "fragment-shader" );
+    var program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
 
     gl.enable(gl.DEPTH_TEST);
     
-        // array element buffer
+    // array element buffer
     var iBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(indices), gl.STATIC_DRAW);
 
-
-    // Color Buffer
-    colors = entityManager.generateColors();
-    cBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW );
-
-    var vColor = gl.getAttribLocation( program, "vColor" );
-    gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vColor );
+    var colLoc = gl.getAttribLocation( program, "vColor" );
 
 
     // Vertex Buffer
-    vBuffer = gl.createBuffer();
+    var vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(vertices), gl.STATIC_DRAW );
 
-     var vPosition = gl.getAttribLocation( program, "vPosition" );
+    var vPosition = gl.getAttribLocation( program, "vPosition" );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
 
     proLoc = gl.getUniformLocation( program, "projection" );
     mvLoc = gl.getUniformLocation( program, "modelview" );
 
-    // Setjum ofanvarpsfylki hÃ©r Ã­ upphafi
+    // Setjum ofanvarpsfylki hér í upphafi
     var proj = perspective( 90.0, 1.0, 0.2, 100.0 );
     gl.uniformMatrix4fv(proLoc, false, flatten(proj));
     
 
 
-    // AtburÃ°afÃ¶ll fyrir mÃºs
+    // Atburðaföll fyrir mús
     canvas.addEventListener("mousedown", function(e){
         movement = true;
         origX = e.offsetX;
@@ -97,21 +120,9 @@ function initWebgl() {
             origX = e.offsetX;
             origY = e.offsetY;
         }
-    } );
-    
-    // AtburÃ°afall fyrir lyklaborÃ°
-     window.addEventListener("keydown", function(e){
-         switch( e.keyCode ) {
-            case 38:    // upp Ã¶r
-                zView += 0.2;
-                break;
-            case 40:    // niÃ°ur Ã¶r
-                zView -= 0.2;
-                break;
-         }
-     }  );  
+    } ); 
 
-    // AtburÃ°afall fyri mÃºsarhjÃ³l
+    // Atburðafall fyri músarhjól
      window.addEventListener("mousewheel", function(e){
          if( e.wheelDelta > 0.0 ) {
              zView += 0.2;
