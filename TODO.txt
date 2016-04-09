@@ -1,0 +1,34 @@
+- Græja entity-manager
+- Græja spatial-manager
+- Græja main-loop
+- Basic útfærsla á frog, log, turtle og car : Constructor, update, render
+		* ATH. Nota til að byrja með 1 VBO með kassa fyrir alla hluti eh?
+- Gera umhverfið (again, úr kössum)
+- Leyfa frosk að færast til
+- COLLISION DETECTION
+- Láta bíla, logs og þannig stuff hreyfast í aðra hvora stefnu eftir x-ás með einhverjum tilteknum hraða
+- Láta hraða bíla og staura vera mismunandi eftir braut (viðbót 1)
+- Láta turtles sökkva randomly (viðbót 2)
+- Búa til flugur svo að froskurinn geti náð þeim sem stigum (viðbót 3)
+- Láta frosk og bíla vera einföld PLY líkon, þ.e. nota Clara.io ef við getum? (viðbót 4, óþörf)
+- Viljum kannski nota eitthvða mynstur á gangstéttina og þannig
+
+
+
+KRÖFUR:
+- ÞRJÁR AKGREINAR
+- ÞRJÁR BRAUTIR FYRIR LOGS Í Á
+- FROSKUR FÆRIST TIL, ÞARF EKKI AÐ 'HOPPA'
+- FROSKINN SÉ HÆGT AÐ FÆRA YFIR GÖTU OG Á
+- FROSKUR DREPST EF BÍLL KEYRIR Á EÐA HANN DETTUR Í ÁNNA
+- ÁHORFANDI FYRIR OFAN OG AFTAN FROSK
+
+2 VIÐBÆTUR ÞURFA AÐ VERA ÚTFÆRÐAR
+- FLUGUR BIRTAST RANDOMLY, FYRIR ÞÆR FÁST AUKASTIG
+- SUMIR STAURAR ERU SKJALDBÖKUR SEM FARA Í KAF RANDOMLY
+- BÍLAR OG STAURAR HREYFAST Á MISMUNANDI HRAÐA
+- NOTA PLY
+
+
+TIPS:
+LÁTA FROSKINN HREYFAST EFTIR GRIND (14X13 Í UPPHAFLEGA LEIK)
