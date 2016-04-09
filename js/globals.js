@@ -10,6 +10,8 @@ var vBuffer;
 var program;
 var mv;
 
+var numLogLanes = 4;
+var numCarLanes = 3;
 
 // Location of projection and model-view matrices
 var proLoc;

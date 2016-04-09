@@ -1,7 +1,7 @@
-- Græja entity-manager
-- Græja spatial-manager
-- Græja main-loop
-- Basic útfærsla á frog, log, turtle og car : Constructor, update, render
+X Græja entity-manager
+X Græja spatial-manager
+X Græja main-loop
+X Basic útfærsla á frog, log, turtle og car : Constructor, update, render
 		* ATH. Nota til að byrja með 1 VBO með kassa fyrir alla hluti eh?
 - Gera umhverfið (again, úr kössum)
 - Leyfa frosk að færast til

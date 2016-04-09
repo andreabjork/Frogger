@@ -10,10 +10,19 @@
 // --------------
 // FROG PROTOTYPE
 // --------------
-
 function Frog(descr) {
    // Must give this butterfly (cx, cy, cz) location, (rx, ry, rz) direction, velocity vel and rotWing wing angle.
+   this.cx = 0.0;
+   this.cy = 0.0;
+   this.vel = 1.0;
+   this.width = 4.0;
+   this.height = 4.0;
+
    this.setup(descr);
+
+   // Register to spatial Manager
+   this.spatialID = spatialManager.getNewSpatialID();
+   spatialManager.register(this);
 }
 
 Frog.prototype.setup = function (descr) {
@@ -28,6 +37,16 @@ Frog.prototype.setup = function (descr) {
 // -------
 // GENERAL
 // -------
+
+Frog.prototype.getPos = function() {
+    return {posX: this.cx, posY: this.cy};
+}
+
+Frog.prototype.getSpatialID = function() {
+    return this.spatialID;
+}
+
+
 // ---------------
 // COLLISION LOGIC
 // ---------------
@@ -36,7 +55,13 @@ Frog.prototype.setup = function (descr) {
 // -------------
 // UPDATE RENDER
 // -------------
-Frog.prototype.update = function(du) {
+Frog.prototype.update = function(du) { 
+    spatialManager.unregister(this);
+
+    spatialManager.register(this);
+
+
+
     var currDir = vec3(this.rx, this.ry, this.rz);
     var newDir = flockAlgorithm.updateDirection(this);
     var a = angle(currDir, newDir);

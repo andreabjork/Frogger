@@ -3,8 +3,16 @@
 // -------------
 
 function Car(descr) {
-   // Must give this butterfly (cx, cy, cz) location, (rx, ry, rz) direction, velocity vel and rotWing wing angle.
+   this.cx = 0.0;
+   this.cy = 0.0;
+   this.vel = 1.0;
+   this.width = 4.0;
+   this.height = 4.0;
    this.setup(descr);
+
+   // Register to spatial Manager
+   this.spatialID = spatialManager.getNewSpatialID();
+   spatialManager.register(this);
 }
 
 Car.prototype.setup = function (descr) {
@@ -14,8 +22,33 @@ Car.prototype.setup = function (descr) {
     }
 };
 
+
+// -------
+// GENERAL
+// -------
+
+Car.prototype.getPos = function() {
+    return {posX: this.cx, posY: this.cy};
+}
+
+Car.prototype.getSpatialID = function() {
+    return this.spatialID;
+}
+
+
+// ---------------
+// COLLISION LOGIC
+// ---------------
+
+
+// -------------
+// UPDATE RENDER
+// -------------
+
 Car.prototype.update = function(du) {
-	
+	spatialManager.unregister(this);
+
+	spatialManager.register(this);	
 }
 
 
