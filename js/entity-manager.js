@@ -2,17 +2,9 @@ var entityManager = {
 
 	// "PRIVATE" DATA
 
-	_frog : [new Frog({})], // may need changing
+	_frog : [new Frog({lane: 0})], // may need changing
 	_cars : [],
 	_logs : [],
-
-	// "PRIVATE" METHODS
-
-	_forEachOf: function(aCategory, fn) {
-		for (var i = 0; i < aCategory.length; ++i) {
-			fn.call(aCategory[i]);
-		}
-	},
 
 	// PUBLIC METHODS
 
@@ -21,21 +13,21 @@ var entityManager = {
 	//
 	deferredSetup : function () {
 		this.resetAll();
-		this.generateButterflies(controller.numButterflies);
-		this._categories = [this._butterflies];
+		this._categories = [this._frog, this.cars, this._logs];
 	},
 
 	resetAll: function() {
-		this._butterflies = [];
-	},
-
-
-	renderEnvironment : function(mv) {
-		// Implement me
+		this._frog = [new Frog({lane: 0})];
+		this._cars = [];
+		this._logs = [];
 	},
 
 	generateCar : function() {
-		// Implement me
+		this._cars.push(new Car({lane: Math.floor(Math.random()*numCarLanes)+1}))
+	},
+
+	generateLog : function() {
+		this._logs.push(new log({lane: Math.floor(Math.random()*numLogLanes)+numCarLanes+2}))
 	},
 
 	init: function() {
@@ -64,11 +56,11 @@ var entityManager = {
 		for (var c = 0; c < this._categories.length; ++c) {
 			var aCategory = this._categories[c];
 			for (var i = 0; i < aCategory.length; ++i) {
-				aCategory[i].render();
+				aCategory[i].render(gl);
 			}
 		}
 	}
 };
 
-// Some deferred setup which needs the object to have been created first
+// Some deferred set up which needs the object to have been created first
 entityManager.deferredSetup();
