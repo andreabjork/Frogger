@@ -35,7 +35,7 @@ var zView = -8.0;
 var boxRadius = 6;
 
 // Vertices, colors and indices
-var NumVertices  = 16;
+var numVertices  = 36;
 // HnÃºtar eins vÃ¦ngs sem liggur Ã­ xz-planinu
 var vertices = [
 // Cube
