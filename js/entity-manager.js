@@ -14,7 +14,7 @@ var entityManager = {
 	//
 	deferredSetup : function () {
 		this.resetAll();
-		this._categories = [this._frog, this.cars, this._logs];
+		this._categories = [this._frog, this._cars, this._logs];
 	},
 
 	resetAll: function() {
@@ -50,7 +50,6 @@ var entityManager = {
 				else i++;
 			}
 		}
-		mv = _frog[0].getMV();
 	},
 
 	render: function(gl) {

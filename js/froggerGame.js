@@ -168,10 +168,14 @@ function render() {
     // mv will be initialized by entity manager
     mv = mult( mv, rotateX(spinX) );
     mv = mult( mv, rotateY(spinY) );
-    drawEnvironment(mv);
+    drawEnvironment();
 
     // The core rendering of the actual simulation
     entityManager.render();
+}
+
+function drawEnvironment() {
+    return;
 }
 
 
