@@ -1,15 +1,10 @@
 // =====================================================================================
-// --------------------------------- BUTTERFLY SIMULATION ---------------------------------
+// ------------------------------------ FROGGER GAME -----------------------------------
 // =====================================================================================
 // 
-//    A simulation of a box of butterflies that adhere to the ... 
+//    Frogger game for Computer Graphics.
 //
-//    I used code from Computer game Programming as back-bone for main simulation logic, 
-//    especially main-loop related update-render logic as well as entity-manager.
-//    The code is originally an outline provided by the teacher (Pat Kerr) that I have
-//    added to in my assignments.
-//
-//    Andrea Björk Björnsdóttir
+//    Andrea Björk Björnsdóttir & Leó Jóhannsson
 //    Háskóli Íslands, March 2016
 
 // Prevent spacebar from scrolling page, esp. when console is open.
@@ -131,7 +126,7 @@ function initWebgl() {
 
 
 // ========================
-// SIMULATION UPDATE-RENDER LOGIC
+// GAME UPDATE-RENDER LOGIC
 // ========================
 
 
@@ -158,74 +153,11 @@ function update(dt) {
 function render() {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    // Draw the butterfly world, i.e. the cube around the butterflies
-    
-    // Use the same mv as with the butterflies
-    var mv = lookAt( vec3(0.0, 1.0, zView), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0) );
+    // mv = lookAt( vec3(0.0, 1.0, zView), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0) );
+    // mv will be initialized by entity manager
     mv = mult( mv, rotateX(spinX) );
     mv = mult( mv, rotateY(spinY) );
-
-
-    // Draw all 12 edges of the world:
-    var mv1 = mult(mv, translate(0,boxRadius,-boxRadius));
-    mv1 = mult(mv1, scalem(2*boxRadius+0.1,0.1,0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv1));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv2 = mult(mv, translate(0,-boxRadius,-boxRadius));
-    mv2 = mult(mv2, scalem(2*boxRadius+0.1,0.1,0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv2));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv3 = mult(mv, translate(boxRadius,0,-boxRadius));
-    mv3 = mult(mv3, scalem(0.1,2*boxRadius+0.1,0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv3));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv4 = mult(mv, translate(-boxRadius,0,-boxRadius));
-    mv4 = mult(mv4, scalem(0.1,2*boxRadius+0.1,0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv4));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv5 = mult(mv, translate(0,boxRadius,boxRadius));
-    mv5 = mult(mv5, scalem(2*boxRadius+0.1,0.1,0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv5));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv6 = mult(mv, translate(0,-boxRadius,boxRadius))
-    mv6 = mult(mv6, scalem(2*boxRadius+0.1,0.1,0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv6));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv7 = mult(mv, translate(boxRadius,0,boxRadius));
-    mv7 = mult(mv7, scalem(0.1,2*boxRadius+0.1,0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv7));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv8 = mult(mv, translate(-boxRadius,0,boxRadius));
-    mv8 = mult(mv8, scalem(0.1,2*boxRadius+0.1,0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv8));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv9 = mult(mv, translate(boxRadius,boxRadius,0));
-    mv9 = mult(mv9, scalem(0.1,0.1,2*boxRadius+0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv9));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv10 = mult(mv, translate(-boxRadius,boxRadius,0));
-    mv10 = mult(mv10, scalem(0.1,0.1,2*boxRadius+0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv10));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv11 = mult(mv, translate(boxRadius,-boxRadius,0));
-    mv11 = mult(mv11, scalem(0.1,0.1,2*boxRadius+0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv11));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
-    
-    var mv12 = mult(mv, translate(-boxRadius,-boxRadius,0));
-    mv12 = mult(mv12, scalem(0.1,0.1,2*boxRadius+0.1));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mv12));
-    gl.drawElements( gl.TRIANGLES, 36, gl.UNSIGNED_BYTE, 0 );
+    drawEnvironment(mv);
 
     // The core rendering of the actual simulation
     entityManager.render();

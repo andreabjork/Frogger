@@ -7,16 +7,16 @@
 //    Hjálmtýr Hafsteinsson, febrúar 2016
 /////////////////////////////////////////////////////////////////
 
-// -------------------
-// BUTTERFLY PROTOTYPE
-// -------------------
+// --------------
+// FROG PROTOTYPE
+// --------------
 
-function Butterfly(descr) {
+function Frog(descr) {
    // Must give this butterfly (cx, cy, cz) location, (rx, ry, rz) direction, velocity vel and rotWing wing angle.
    this.setup(descr);
 }
 
-Butterfly.prototype.setup = function (descr) {
+Frog.prototype.setup = function (descr) {
     // Apply all setup properies from the (optional) descriptor
     for (var property in descr) {
         this[property] = descr[property];
@@ -36,7 +36,7 @@ Butterfly.prototype.setup = function (descr) {
 // -------------
 // UPDATE RENDER
 // -------------
-Butterfly.prototype.update = function(du) {
+Frog.prototype.update = function(du) {
     var currDir = vec3(this.rx, this.ry, this.rz);
     var newDir = flockAlgorithm.updateDirection(this);
     var a = angle(currDir, newDir);
@@ -69,7 +69,7 @@ Butterfly.prototype.update = function(du) {
 }
 
 var xzAngle;
-Butterfly.prototype.render = function() {
+Frog.prototype.render = function() {
     gl.bindBuffer( gl.ARRAY_BUFFER, cBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(this.colors), gl.STATIC_DRAW );
     // lookAt(eye, at, up)
