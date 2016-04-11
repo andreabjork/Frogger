@@ -15,7 +15,7 @@ function Frog(descr) {
    this.cx = 0.0;
    this.cy = 0.0;
    this.cz = 0.0;
-   this.vel = 1.0;
+   this.vel = 0.1;
    this.width = 4.0;
    this.height = 4.0;
    this.depth = 4.0;
@@ -64,18 +64,18 @@ Frog.prototype.getSpatialID = function() {
 Frog.prototype.updateLocation = function(du) {
     // r = vt * r_0
     if (keys[this.KEY_LEFT]) {
-        this.cx -= this.vel*du;
+        this.cx += this.vel*du;
     }
     if (keys[this.KEY_RIGHT]) {
-        this.cx += this.vel*du;
+        this.cx -= this.vel*du;
     }
     // Eat key for jumping over lanes because
     // we don't want the frog jumping multiple
     // lanes even though key is held down.
-    if (eatKey[this.KEY_UP]) {
+    if (eatKey(this.KEY_UP)) {
         this.cz += laneDepth;
     }
-    if (eatKey[this.KEY_DOWN]) {
+    if (eatKey(this.KEY_DOWN)) {
         this.cz -= laneDepth;
     }
 }
