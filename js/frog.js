@@ -59,6 +59,8 @@ Frog.prototype.getSpatialID = function() {
 Frog.prototype.update = function(du) { 
     spatialManager.unregister(this);
 
+    
+
     spatialManager.register(this);
 
 
