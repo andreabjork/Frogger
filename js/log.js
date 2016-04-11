@@ -48,7 +48,7 @@ Log.prototype.update = function(du) {
 	spatialManager.unregister(this);
 
 	spatialManager.register(this);
-	}
+}
 
 
 Log.prototype.render = function() {
