@@ -14,6 +14,7 @@ function Frog(descr) {
    // Must give this butterfly (cx, cy, cz) location, (rx, ry, rz) direction, velocity vel and rotWing wing angle.
    this.cx = 0.0;
    this.cy = 0.0;
+   this.cz = 0.0;
    this.vel = 1.0;
    this.width = 4.0;
    this.height = 4.0;
@@ -65,9 +66,9 @@ Frog.prototype.update = function(du) {
 }
 
 Frog.prototype.updateMV = function()  {
-    // lookAt(eye, at, up)
-	mv = mat4();
-    //mv = lookAt( vec3(0.0, 1.0, -5.0), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
+  // lookAt(eye, at, up)
+  mv = lookAt( vec3(this.cx, this.cy+4.0, this.cz-1.0), vec3(this.cx, this.cy, this.cz), vec3(0.0, 1.0, 0.0));
+    
 }
 
 var xzAngle;
@@ -76,9 +77,8 @@ Frog.prototype.render = function() {
 
     // TRANSLATE - ROTATE - SCALE in the coordinate system:
     // Translate to position
-    gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    var mvFrog = mult( mv, translate(0, 0, 0));
-    mvFrog = mult(mvFrog, scalem(0.3, 0.3, 0.3));
+    var mvFrog = mult( mv, translate(this.cx, this.cy, this.cz));
+    mvFrog = mult(mvFrog, scalem(0.6, 0.6, 0.6));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvFrog));
     gl.uniform4fv(colLoc, flatten(this.color));
     gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);

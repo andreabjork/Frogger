@@ -164,9 +164,10 @@ function render() {
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 
-    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
     // mv = lookAt( vec3(0.0, 1.0, zView), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0) );
     // mv will be initialized by entity manager
+    
+    
     mv = mult( mv, rotateX(spinX) );
     mv = mult( mv, rotateY(spinY) );
     drawEnvironment();
