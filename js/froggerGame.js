@@ -61,7 +61,7 @@ window.addEventListener("keyup", handleKeyup);
 
 function initWebgl() {
     var canvas = document.getElementById( "gl-canvas" );
-    canvas.width = window.innerWidth;
+    //canvas.width = window.innerWidth;
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
     //
@@ -177,6 +177,16 @@ function render() {
 }
 
 function drawEnvironment() {
+	var grassColor = this.color = vec4(144/255, 212/255, 145/255, 1.0);
+	var waterColor;
+
+	var mvNearBank = mult(mv,translate(0,-2*scaleConst,0));
+	mvNearBank = mult(mvNearBank,scalem(worldWidth*scaleConst,4.0*scaleConst,((numCarLanes+2)*laneDepth+(numCarLanes+1)*laneSpacing)*scaleConst));
+    gl.uniformMatrix4fv(mvLoc, false, flatten(mvNearBank));
+    gl.uniform4fv(colLoc, flatten(grassColor));
+    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+	var mvRiver = mult(mv,mat4());
+	var mvFarBank = mult(mv,mat4());
     return;
 }
 
