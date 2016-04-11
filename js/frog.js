@@ -33,6 +33,10 @@ Frog.prototype.setup = function (descr) {
     }
 };
 
+Frog.prototype.KEY_UP = 38;
+Frog.prototype.KEY_DOWN = 40;
+Frog.prototype.KEY_LEFT   = 37;
+Frog.prototype.KEY_RIGHT  = 39;//'D'.charCodeAt(0);
 
 
 // -------
@@ -56,15 +60,31 @@ Frog.prototype.getSpatialID = function() {
 // COLLISION LOGIC
 // ---------------
 
+Frog.prototype.updateLocation = function(du) {
+    // r = vt * r_0
+    if (keys[this.KEY_LEFT]) {
+        this.cx -= this.vel*du;
+    }
+    if (keys[this.KEY_RIGHT]) {
+        this.cx += this.vel*du;
+    }
+    // Eat key for jumping over lanes because
+    // we don't want the frog jumping multiple
+    // lanes even though key is held down.
+    if (eatKey[this.KEY_UP]) {
+        this.cz += laneDepth;
+    }
+    if (eatKey[this.KEY_DOWN]) {
+        this.cz -= laneDepth;
+    }
+}
 
 // -------------
 // UPDATE RENDER
 // -------------
 Frog.prototype.update = function(du) { 
     spatialManager.unregister(this);
-
-    
-
+    this.updateLocation(du);
     spatialManager.register(this);
 
 
