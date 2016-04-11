@@ -40,7 +40,11 @@ Frog.prototype.setup = function (descr) {
 // -------
 
 Frog.prototype.getPos = function() {
-    return {posX: this.cx, posY: this.cy};
+    return {posX: this.cx, posY: this.cz};
+}
+
+Frog.prototype.getSize = function(){
+	return {sizeX: this.sizeX, sizeY: this.sizeZ};
 }
 
 Frog.prototype.getSpatialID = function() {
@@ -67,7 +71,7 @@ Frog.prototype.update = function(du) {
 
 Frog.prototype.updateMV = function()  {
   // lookAt(eye, at, up)
-  mv = lookAt( vec3(this.cx, this.cy+4.0, this.cz-1.0), vec3(this.cx, this.cy, this.cz), vec3(0.0, 1.0, 0.0));
+  mv = lookAt( vec3(this.cx, this.cy+1.5, this.cz-2.0), vec3(this.cx, this.cy, this.cz+2.0), vec3(0.0, 1.0, 0.0));
     
 }
 
