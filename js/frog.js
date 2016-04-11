@@ -18,6 +18,7 @@ function Frog(descr) {
    this.vel = 1.0;
    this.width = 4.0;
    this.height = 4.0;
+   this.depth = 4.0;
    this.color = vec4(51/255, 102/255, 0.0/255, 1.0); // green color
    this.setup(descr);
 
@@ -44,7 +45,7 @@ Frog.prototype.getPos = function() {
 }
 
 Frog.prototype.getSize = function(){
-	return {sizeX: this.sizeX, sizeY: this.sizeZ};
+	return {sizeX: this.width, sizeY: this.depth};
 }
 
 Frog.prototype.getSpatialID = function() {
@@ -82,7 +83,7 @@ Frog.prototype.render = function() {
     // TRANSLATE - ROTATE - SCALE in the coordinate system:
     // Translate to position
     var mvFrog = mult( mv, translate(this.cx, this.cy, this.cz));
-    mvFrog = mult(mvFrog, scalem(0.6, 0.6, 0.6));
+    mvFrog = mult(mvFrog, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvFrog));
     gl.uniform4fv(colLoc, flatten(this.color));
     gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
