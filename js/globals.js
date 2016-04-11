@@ -37,17 +37,17 @@ var boxRadius = 6;
 // Vertices, colors and indices
 var numVertices  = 36;
 var vBuffer;
-// HnÃºtar eins vÃ¦ngs sem liggur Ã­ xz-planinu
+
 var vertices = [
 // Cube
-    vec3( -0.5, -0.5,  0.5 ),
-    vec3( -0.5,  0.5,  0.5 ),
-    vec3(  0.5,  0.5,  0.5 ),
-    vec3(  0.5, -0.5,  0.5 ),
-    vec3( -0.5, -0.5, -0.5 ),
-    vec3( -0.5,  0.5, -0.5 ),
-    vec3(  0.5,  0.5, -0.5 ),
-    vec3(  0.5, -0.5, -0.5 )
+    vec4( -0.5, -0.5,  0.5, 1.0 ), // far bottom right
+    vec4( -0.5,  0.5,  0.5, 1.0 ), // far top right
+    vec4(  0.5,  0.5,  0.5, 1.0 ), // far top left
+    vec4(  0.5, -0.5,  0.5, 1.0 ), // far bottom left
+    vec4( -0.5, -0.5, -0.5, 1.0 ), // near bottom right
+    vec4( -0.5,  0.5, -0.5, 1.0 ), // near top right
+    vec4(  0.5,  0.5, -0.5, 1.0 ), // near top left
+    vec4(  0.5, -0.5, -0.5, 1.0 )  // near bottom left
 
 ];
 
