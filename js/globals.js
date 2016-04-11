@@ -40,14 +40,14 @@ var vBuffer;
 
 var vertices = [
 // Cube
-    vec4( -0.5, -0.5,  0.5, 1.0 ), // far bottom right
-    vec4( -0.5,  0.5,  0.5, 1.0 ), // far top right
-    vec4(  0.5,  0.5,  0.5, 1.0 ), // far top left
-    vec4(  0.5, -0.5,  0.5, 1.0 ), // far bottom left
-    vec4( -0.5, -0.5, -0.5, 1.0 ), // near bottom right
-    vec4( -0.5,  0.5, -0.5, 1.0 ), // near top right
-    vec4(  0.5,  0.5, -0.5, 1.0 ), // near top left
-    vec4(  0.5, -0.5, -0.5, 1.0 )  // near bottom left
+    vec3( -0.5, -0.5,  0.5), // far bottom right
+    vec3( -0.5,  0.5,  0.5), // far top right
+    vec3(  0.5,  0.5,  0.5), // far top left
+    vec3(  0.5, -0.5,  0.5), // far bottom left
+    vec3( -0.5, -0.5, -0.5), // near bottom right
+    vec3( -0.5,  0.5, -0.5), // near top right
+    vec3(  0.5,  0.5, -0.5), // near top left
+    vec3(  0.5, -0.5, -0.5)  // near bottom left
 
 ];
 
