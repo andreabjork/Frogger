@@ -76,9 +76,10 @@ Frog.prototype.render = function() {
 
     // TRANSLATE - ROTATE - SCALE in the coordinate system:
     // Translate to position
-    //var mvFrog = mult( mv, translate(this.cx, this.cy, this.cz));
-    //mvFrog = mult(mvFrog, scalem(0.1, 0.1, 0.1));
-
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
+    var mvFrog = mult( mv, translate(0, 0, 0));
+    mvFrog = mult(mvFrog, scalem(0.3, 0.3, 0.3));
+    gl.uniformMatrix4fv(mvLoc, false, flatten(mvFrog));
     gl.uniform4fv(colLoc, flatten(this.color));
     gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
 }

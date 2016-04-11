@@ -36,6 +36,7 @@ var boxRadius = 6;
 
 // Vertices, colors and indices
 var numVertices  = 36;
+var vBuffer;
 // HnÃºtar eins vÃ¦ngs sem liggur Ã­ xz-planinu
 var vertices = [
 // Cube
