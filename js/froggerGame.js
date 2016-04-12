@@ -180,25 +180,51 @@ function drawEnvironment() {
 	var grassColor = this.color = vec4(144/255, 212/255, 145/255, 1.0);
 	var waterColor = this.color = vec4(144/255, 172/255, 212/255, 1.0);
 
+	var offset = -laneDepth*scaleConst;
 	var laneHeight = 4*scaleConst;
 	var grassHeight = 3.5*scaleConst;
 	var waterHeight = 3*scaleConst;
 	var maxWorldHeight = 4*scaleConst;
+	var numPens = 6;
+	var penSegmWidth = (worldWidth/(numPens*2-1))*scaleConst;
+	var worldRightmost = -worldWidth*scaleConst/2;
 	
 	var nearBankDepth = ((numCarLanes+2)*laneDepth+(numCarLanes+1)*laneSpacing)*scaleConst;
-	var waterDepth = nearBankDepth+(10);
-	var farBankDepth = 0;
+	var waterDepth = (numLogLanes*laneDepth+(numLogLanes+1)*laneSpacing)*scaleConst;
+	var penDepth = laneDepth*scaleConst;
+	var farBankDepth = (laneDepth+laneSpacing)*scaleConst;
 	
-	// Draw near-bank
-	var mvNearBank = mult(mv,translate(0,-maxWorldHeight,(nearBankDepth-laneDepth*scaleConst)/2));
+	// Draw near-bank //with no lane spaces on both ends
+	var mvNearBank = mult(mv,translate(0,-maxWorldHeight,(nearBankDepth+offset)/2));
 	mvNearBank = mult(mvNearBank,scalem(worldWidth*scaleConst,grassHeight,nearBankDepth));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvNearBank));
     gl.uniform4fv(colLoc, flatten(grassColor));
     gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
 	
+	// Draw river //wiht lane spaces on both ends of the river
+	var mvRiver = mult(mv,translate(0,-maxWorldHeight,nearBankDepth+(waterDepth+penDepth+offset)/2));
+	mvRiver = mult(mvRiver,scalem(worldWidth*scaleConst,waterHeight,waterDepth+penDepth));
+    gl.uniformMatrix4fv(mvLoc, false, flatten(mvRiver));
+    gl.uniform4fv(colLoc, flatten(waterColor));
+    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
 	
-	var mvRiver = mult(mv,mat4());
-	var mvFarBank = mult(mv,mat4());
+	//Draw pens (grass nubbins)
+	for(var i=0; i<numPens; i++){
+		var mvPenGrass = mult(mv,translate(worldRightmost+i*2*penSegmWidth+penSegmWidth/2,-maxWorldHeight,nearBankDepth+waterDepth+(penDepth+offset)/2));
+		mvPenGrass = mult(mvPenGrass,scalem(penSegmWidth,grassHeight,penDepth));
+		gl.uniformMatrix4fv(mvLoc, false, flatten(mvPenGrass));
+		gl.uniform4fv(colLoc, flatten(grassColor));
+		gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+	}
+	
+	// Draw far-bank //with lane space before
+	var mvFarBank = mult(mv,translate(0,-maxWorldHeight,nearBankDepth+waterDepth+penDepth+(farBankDepth+offset)/2));
+	mvFarBank = mult(mvFarBank,scalem(worldWidth*scaleConst,grassHeight,farBankDepth));
+    gl.uniformMatrix4fv(mvLoc, false, flatten(mvFarBank));
+    gl.uniform4fv(colLoc, flatten(grassColor));
+    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+	
+	
     return;
 }
 
