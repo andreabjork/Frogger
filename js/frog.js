@@ -70,16 +70,24 @@ Frog.prototype.die = function(){
 
 Frog.prototype.updateLocation = function(du) {
     // r = vt * r_0
-    if (keys[this.KEY_LEFT] && (this.cx+this.width/2) < worldWidth/2) {
-        var newX = this.cx + this.vel*du;
-        if(this.outOfBounds(newX).left) return;
-        this.cx = newX;
+	//(if(this.onLog) this.
+	
+	var newX = this.cx;
+	if(this.onLog){
+		console.log("moving with the log by "+(this.log.vel));
+		newX += this.log.vel*du;
+	}
+    if (keys[this.KEY_LEFT]) {
+        newX += this.vel*du;
     }
-    if (keys[this.KEY_RIGHT] && (this.cx+this.width/2) < worldWidth) {
-        var newX = this.cx - this.vel*du;
-        if(this.outOfBounds(newX).right) return;
-        this.cx = newX;
+    if (keys[this.KEY_RIGHT]) {
+        newX -= this.vel*du;
     }
+	
+    if(this.outOfBounds(newX).right && newX<this.cx) return;
+	if(this.outOfBounds(newX).left && newX>this.cx) return;
+	this.cx = newX;
+	
     // Eat key for jumping over lanes because
     // we don't want the frog jumping multiple
     // lanes even though key is held down.
@@ -124,7 +132,8 @@ Frog.prototype.update = function(du) {
 		}
 		if(entity instanceof Log){
 			this.onLog = true;
-			console.log("Standing on a log!");
+			//console.log("Standing on a log!");
+			this.log = entity;
 		}
 	}
 	
