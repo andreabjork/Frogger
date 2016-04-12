@@ -77,22 +77,26 @@ Frog.prototype.updateLocation = function(du) {
     // we don't want the frog jumping multiple
     // lanes even though key is held down.
     if (eatKey(this.KEY_UP)) {
+        if(this.outOfBounds(this.cz+laneDepth).top) return;
         this.cz += laneDepth;
     }
     if (eatKey(this.KEY_DOWN)) {
+        if(this.outOfBounds(this.cz-laneDepth).bottom) return;
         this.cz -= laneDepth;
     }
 }
 
 
 Frog.prototype.outOfBounds = function(valX) {
+    var backFrogEdge = this.cz-this.width/2;
+    var frontFrogEdge = this.cz+this.width/2;
     var leftFrogEdge = this.cx+this.width/2;
     var rightFrogEdge = this.cx-this.width/2;
     var leftWorldEdge = worldWidth/2;
     var rightWorldEdge = -worldWidth/2;
 
     // Remember x-axis goes from right to left, not left to right!
-    return {left: leftFrogEdge > leftWorldEdge, right: rightFrogEdge < rightWorldEdge};
+    return {left: leftFrogEdge > leftWorldEdge, right: rightFrogEdge < rightWorldEdge, bottom: backFrogEdge < 0.0, top: frontFrogEdge > laneDepth*(numLogLanes+numCarLanes+3)};
 }
 // -------------
 // UPDATE RENDER
@@ -108,7 +112,9 @@ Frog.prototype.update = function(du) {
 
 Frog.prototype.updateMV = function()  {
   // lookAt(eye, at, up)
-  mv = lookAt( vec3(this.cx*scaleConst, this.cy*scaleConst+1.5, this.cz*scaleConst-2.0), vec3(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst+2.0), vec3(0.0, 1.0, 0.0));
+  mv = lookAt( vec3(this.cx*scaleConst, this.cy*scaleConst+1.5, this.cz*scaleConst-2.0), // eye
+               vec3(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst+2.0),  // at
+               vec3(0.0, 1.0, 0.0)); // up
     
 }
 
