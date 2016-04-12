@@ -223,9 +223,6 @@ function drawEnvironment() {
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvFarBank));
     gl.uniform4fv(colLoc, flatten(grassColor));
     gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
-	
-	
-    return;
 }
 
 
