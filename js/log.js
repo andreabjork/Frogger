@@ -59,13 +59,13 @@ Log.prototype.getLane = function() {
 // ---------------
 
 Log.prototype.outOfBounds = function(valX) {
-    var leftFrogEdge = this.cx+this.width/2;
-    var rightFrogEdge = this.cx-this.width/2;
+    var leftLogEdge = this.cx+this.width/2;
+    var rightLogEdge = this.cx-this.width/2;
     var leftWorldEdge = worldWidth/2;
     var rightWorldEdge = -worldWidth/2;
 
     // Remember x-axis goes from right to left, not left to right!
-    return (leftFrogEdge > leftWorldEdge || rightFrogEdge < rightWorldEdge);
+    return (rightLogEdge > leftWorldEdge || leftLogEdge < rightWorldEdge);
     //return 
 }
 
