@@ -29,14 +29,14 @@ var entityManager = {
 	},
 
 	generateCar : function() {
-		var randomLane = randomInt(1, 1+numCarLanes);
+		var randomLane = randomInt(1, numCarLanes);
 		var randomVel = randomInt(2, 6)/10; //speed varies from 0.2 to 0.6
 		this._cars.push(new Car({lane: randomLane, vel: randomVel}))
 		this._occupyingLane[randomLane] = this._occupyingLane[randomLane]+1;
 	},
 
 	generateLog : function() {
-		var randomLane = randomInt(numCarLanes+2, numCarLanes+2+numLogLanes);
+		var randomLane = randomInt(numCarLanes+2, numCarLanes+2+numLogLanes-1);
 		var randomVel = randomInt(2, 6)/10; //speed varies from 0.2 to 0.6
 		this._logs.push(new Log({lane: randomLane, vel: randomVel}))
 		this._occupyingLane[randomLane] = this._occupyingLane[randomLane]+1;
@@ -46,11 +46,11 @@ var entityManager = {
 		var carLanesStart = 1;
 		var logLanesStart = numCarLanes+2;
 		for(var i = carLanesStart; i < carLanesStart+numCarLanes; i++) {
-			if(this.laneNotFull(i)) this.generateCar();
+			if(this.laneNotFull(i) && randomInt(1,100) > 95) this.generateCar();
 		}
 
 		for(var i = logLanesStart; i < logLanesStart+numLogLanes; i++) {
-			if(this.laneNotFull(i)) this.generateLog();
+			if(this.laneNotFull(i) && randomInt(1,100) > 95) this.generateLog();
 		}
 	},
 
