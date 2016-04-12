@@ -11,17 +11,8 @@
 // FROG PROTOTYPE
 // --------------
 function Frog(descr) {
-   // Must give this butterfly (cx, cy, cz) location, (rx, ry, rz) direction, velocity vel and rotWing wing angle.
-   this.cx = 0.0;
-   this.cy = 0.0;
-   this.cz = 0.0;
-   this.vel = 0.4;
-   this.width = 4.0;
-   this.height = 4.0;
-   this.depth = 4.0;
-   this.color = vec4(51/255, 102/255, 0.0/255, 1.0); // green color
+   this.init();
    this.setup(descr);
-
    // Register to spatial Manager
    this.spatialID = spatialManager.getNewSpatialID();
    spatialManager.register(this);
@@ -33,6 +24,18 @@ Frog.prototype.setup = function (descr) {
         this[property] = descr[property];
     }
 };
+
+Frog.prototype.init = function(){
+   this.cx = 0.0;
+   this.cy = 0.0;
+   this.cz = 0.0;
+   this.lane = 0;
+   this.vel = 0.4;
+   this.width = 4.0;
+   this.height = 4.0;
+   this.depth = 4.0;
+   this.color = vec4(51/255, 102/255, 0.0/255, 1.0); // green color
+}
 
 Frog.prototype.KEY_UP = 38;
 Frog.prototype.KEY_DOWN = 40;
@@ -54,6 +57,10 @@ Frog.prototype.getSize = function(){
 
 Frog.prototype.getSpatialID = function() {
     return this.spatialID;
+}
+
+Frog.prototype.die = function(){
+	this.init();
 }
 
 
@@ -79,10 +86,12 @@ Frog.prototype.updateLocation = function(du) {
     if (eatKey(this.KEY_UP)) {
         if(this.outOfBounds(this.cz+laneDepth).top) return;
         this.cz += laneDepth+laneSpacing;
+		this.lane +=1;
     }
     if (eatKey(this.KEY_DOWN)) {
         if(this.outOfBounds(this.cz-laneDepth).bottom) return;
         this.cz -= laneDepth+laneSpacing;
+		this.lane -=1;
     }
 }
 
@@ -105,11 +114,29 @@ Frog.prototype.update = function(du) {
     spatialManager.unregister(this);
     this.updateLocation(du);
 	var colEnts = spatialManager.findEntitiesInRange(this);
+	this.onLog = false;
 	for(var i=0; i<colEnts.length; i++){
 		var entity = colEnts[i];
-		if(entity instanceof Car) console.log("Hit by a car!");
-		if(entity instanceof Log) console.log("Standing on a log!");
+		if(entity instanceof Car){
+			//Become frog-shaped pancake!
+			console.log("Hit by a car!");
+			this.die();
+		}
+		if(entity instanceof Log){
+			this.onLog = true;
+			console.log("Standing on a log!");
+		}
 	}
+	
+	var inWaterLane = this.lane > numCarLanes+1 && this.lane < numCarLanes+numLogLanes+2;
+	
+	// Fall in water!
+	if(!this.onLog && inWaterLane){
+		console.log("Drowning!");
+		this.die();
+	}
+	
+	
     spatialManager.register(this);
 
     this.updateMV();    
