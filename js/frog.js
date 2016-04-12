@@ -125,14 +125,34 @@ Frog.prototype.updateMV = function()  {
 
 var xzAngle;
 Frog.prototype.render = function() {
-	//console.log("Rendering frog");
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferFROG);
+    gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
 
-    // TRANSLATE - ROTATE - SCALE in the coordinate system:
-    // Translate to position
+
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferFROG );
+    gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
+    
     var mvFrog = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
     mvFrog = mult(mvFrog, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mvFrog));
-    gl.uniform4fv(colLoc, flatten(this.color));
-    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+  
+   
+	    //console.log("Rendering frog");
+    normalMatrix = [
+        vec3(mvFrog[0][0], mvFrog[0][1], mvFrog[0][2]),
+        vec3(mvFrog[1][0], mvFrog[1][1], mvFrog[1][2]),
+        vec3(mvFrog[2][0], mvFrog[2][1], mvFrog[2][2])
+    ];
+
+
+
+    gl.uniformMatrix4fv(mvLoc, false, flatten(mvFrog) );
+    gl.uniformMatrix3fv(normLoc, false, flatten(normalMatrix) );
+
+    gl.drawArrays( gl.TRIANGLES, 0, verticesFROG.length );
+    // TRANSLATE - ROTATE - SCALE in the coordinate system:
+    // Translate to position
+    //gl.uniformMatrix4fv(mvLoc, false, flatten(mvFrog));
+    //gl.uniform4fv(colLoc, flatten(this.color));
+    //gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
 }
 

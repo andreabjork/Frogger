@@ -64,41 +64,98 @@ function initWebgl() {
     //canvas.width = window.innerWidth;
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
+
     //
     //  Configure WebGL
     //
     gl.viewport( 0, 0, canvas.width, canvas.height );
     gl.clearColor( 0.0, 0.0, 0.0, 0.5 );
+
+    gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.CULL_FACE);
+    gl.cullFace(gl.BACK);
+
+
     //  Load shaders and initialize attribute buffers
     var program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
 
-    gl.enable(gl.DEPTH_TEST);
-    
-    // array element buffer
-    var iBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iBuffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(indices), gl.STATIC_DRAW);
 
-    colLoc = gl.getUniformLocation( program, "vColor" );
+
+    ambientProduct = mult(lightAmbient, materialAmbient);
+    diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    specularProduct = mult(lightSpecular, materialSpecular);
+
+
+    // get model
+    var PR = PlyReader();
+    var plyData = PR.read("froggy.ply");
+    verticesFROG = plyData.points;
+    normalsFROG = plyData.normals;
+
+    var plyData2 = PR.read("beethoven-n.ply");
+    verticesCAR = plyData2.points;
+    normalsCAR = plyData2.normals;
+
+
+
+
+    // ==============================
+    // FROG vertex and normal buffers
+    // ==============================
+    // normals array attribute buffer
+    nBufferFROG = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferFROG );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsFROG), gl.STATIC_DRAW );
+
+    vNormal = gl.getAttribLocation( program, "vNormal" );
+    gl.vertexAttribPointer( vNormal, 4, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vNormal );
+
+    nBufferCAR = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferCAR );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsCAR), gl.STATIC_DRAW );
+
+    // array element buffer
+    //var iBuffer = gl.createBuffer();
+    //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iBuffer);
+    //gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint8Array(indices), gl.STATIC_DRAW);
+
+    //colLoc = gl.getUniformLocation( program, "vColor" );
 
     // vertex array attribute buffer
-    vBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(vertices), gl.STATIC_DRAW );
+    vBufferFROG = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferFROG );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesFROG), gl.STATIC_DRAW );
 
-    var vPosition = gl.getAttribLocation( program, "vPosition" );
-    gl.vertexAttribPointer( vPosition, 3, gl.FLOAT, false, 0, 0 );
+    vPosition = gl.getAttribLocation( program, "vPosition" );
+    gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosition );
+
+
+    vBufferCAR = gl.createBuffer(); 
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferCAR );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesCAR), gl.STATIC_DRAW );
+
 
     proLoc = gl.getUniformLocation( program, "projection" );
     mvLoc = gl.getUniformLocation( program, "modelview" );
+    normLoc = gl.getUniformLocation( program, "normalMatrix" );
 
     // Setjum ofanvarpsfylki hér í upphafi
-    var proj = perspective( 90.0, 1.0, 0.2, 100.0 );
+/*    var fovy = 60.0;
+var near = 0.2;
+var far = 100.0;
+    var proj = perspective( fovy, 1.0, near, far );*/
+    var proj = perspective( 90.0, 1.0, 0.2, 100.0);
     gl.uniformMatrix4fv(proLoc, false, flatten(proj));
     
 
+    gl.uniform4fv( gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct) );
+    gl.uniform4fv( gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
+    gl.uniform4fv( gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );
+    gl.uniform4fv( gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
+    gl.uniform1f( gl.getUniformLocation(program, "shininess"), materialShininess );
 
     // Atburðaföll fyrir mús
     canvas.addEventListener("mousedown", function(e){
@@ -166,11 +223,16 @@ function render() {
 
     // mv = lookAt( vec3(0.0, 1.0, zView), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0) );
     // mv will be initialized by entity manager
-    
-    
+    var at = vec3(0.0, 0.0, 0.0);
+var up = vec3(0.0, 1.0, 0.0);
+    //mv = lookAt( vec3(0.0, 0.0, zView), at, up ); /*lookAt( vec3(this.cx*scaleConst, this.cy*scaleConst+1.5, this.cz*scaleConst+zView), // eye
+               //vec3(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst+2.0),  // at
+               //vec3(0.0, 1.0, 0.0)); // up*/
     mv = mult( mv, rotateX(spinX) );
     mv = mult( mv, rotateY(spinY) );
-    drawEnvironment();
+
+
+    //drawEnvironment();
 
     // The core rendering of the actual simulation
     entityManager.render();

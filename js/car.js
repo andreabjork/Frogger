@@ -91,10 +91,27 @@ Car.prototype.update = function(du) {
 
 
 Car.prototype.render = function() {
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferCAR);
+    gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
+
+
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferCAR );
+    gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
+    
+
 
     var mvCar = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
     mvCar = mult(mvCar, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
+    
+    //console.log("Rendering frog");
+    normalMatrix = [
+        vec3(mvCar[0][0], mvCar[0][1], mvCar[0][2]),
+        vec3(mvCar[1][0], mvCar[1][1], mvCar[1][2]),
+        vec3(mvCar[2][0], mvCar[2][1], mvCar[2][2])
+    ];
+
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvCar));
-    gl.uniform4fv(colLoc, flatten(this.color));
-    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+    gl.uniformMatrix3fv(normLoc, false, flatten(normalMatrix) );
+
+    gl.drawArrays( gl.TRIANGLES, 0, verticesCAR.length );
 }

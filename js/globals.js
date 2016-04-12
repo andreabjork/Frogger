@@ -5,6 +5,10 @@
 // Web GL gl, buffers, program etc
 var gl;
 var canvas;
+var program;
+var vNormal, vPosition;
+
+
 var colLoc;
 var mv;
 var KILL_ME_NOW = -1;
@@ -22,6 +26,7 @@ var scaleConst = 0.1;
 // Location of projection and model-view matrices
 var proLoc;
 var mvLoc;
+var normLoc;
 
 // Vars for mouse interaction and rotation
 var movement = false;     // Er mÃºsarhnappur niÃ°ri?
@@ -31,15 +36,31 @@ var origX;
 var origY;
 
 // Viewpoint
-var zView = -2.0;
+var zView = -8.0;
+
+
+
+var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
+var lightAmbient = vec4(1.0, 1.0, 1.0, 1.0 );
+var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
+var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+
+var materialAmbient = vec4( 0.2, 0.0, 0.2, 1.0 );
+var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
+var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+var materialShininess = 50.0;
+
+var ctm;
+var ambientColor, diffuseColor, specularColor;
+
 
 // Size of our world
 var boxRadius = 6;
 
 // Vertices, colors and indices
 var numVertices  = 36;
-var vBuffer;
 
+/*
 var vertices = [
 // Cube
     vec3( -0.5, -0.5,  0.5), // far bottom right
@@ -51,7 +72,16 @@ var vertices = [
     vec3(  0.5,  0.5, -0.5), // near top left
     vec3(  0.5, -0.5, -0.5)  // near bottom left
 
-];
+];*/
+
+var vBufferFROG, vBufferCAR;
+var nBufferFROG, nBufferCAR;
+var verticesFROG = [];
+var verticesCAR = [];
+var verticesLOG = [];
+var normalsFROG = [];
+var normalsCAR = [];
+var normalsLOG = [];
 
 // indices of the 12 triangles that compise the cube
 var indices = [
