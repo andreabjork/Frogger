@@ -5,7 +5,7 @@
 function Log(descr) {
    this.lane = 1;   
    this.cx = 0.0;
-   this.cy = 0.0;
+   this.cy = -3.0;
    this.cz = 0.0;
    this.vel = 0.4;
    this.width = 8.0;
@@ -34,15 +34,14 @@ Log.prototype.setup = function (descr) {
 
 Log.prototype.moveToLane = function(lane) {
    this.cx = -worldWidth/2 + this.width/2 + 1;
-   this.cy = 0.0;
-   this.cz = laneDepth*lane;
+   this.cz = laneDepth*lane+laneSpacing*lane;
 }
 
 Log.prototype.getPos = function() {
     return {posX: this.cx, posY: this.cz};
 }
 
-Frog.prototype.getSize = function(){
+Log.prototype.getSize = function(){
   return {sizeX: this.width, sizeY: this.depth};
 }
 

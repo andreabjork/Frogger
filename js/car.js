@@ -34,12 +34,15 @@ Car.prototype.setup = function (descr) {
 
 Car.prototype.moveToLane = function(lane) {
    this.cx = -worldWidth/2 + this.width/2 + 1;
-   this.cy = 0.0;
-   this.cz = laneDepth*lane;
+   this.cz = laneDepth*lane+laneSpacing*lane;
 }
 
 Car.prototype.getPos = function() {
     return {posX: this.cx, posY: this.cz};
+}
+
+Car.prototype.getSize = function(){
+  return {sizeX: this.width, sizeY: this.depth};
 }
 
 Car.prototype.getSpatialID = function() {

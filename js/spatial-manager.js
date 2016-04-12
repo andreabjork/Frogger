@@ -26,7 +26,13 @@ var spatialManager = {
 		this._entities[spatialID] = undefined;
 	},
 
-	findEntitiesInRange: function(posX, posY, sizeX, sizeY) {
+	findEntitiesInRange: function(entity) {
+		var pos = entity.getPos();
+		var size = entity.getSize();
+		var posX = pos.posX;
+		var posY = pos.posY;
+		var sizeX = size.sizeX;
+		var sizeY = size.sizeY;
 		var posX2,
 			posY2,
 			sizeX2,
@@ -34,10 +40,10 @@ var spatialManager = {
 		var entities = [];
 		for(var i = 1 ; i < this._entities.length; i++){
 			if(this._entities[i]){
-				var pos = this._entities[i].getPos();
+				pos = this._entities[i].getPos();
 				posX2 = pos.posX;
 				posY2 = pos.posY;
-				var size = this._entities[i].getSize();
+				size = this._entities[i].getSize();
 				sizeX2 = size.sizeX;
 				sizeY2 = size.sizeY;
 				
