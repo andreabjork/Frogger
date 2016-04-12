@@ -14,7 +14,7 @@ var numLogLanes = 4;
 var numCarLanes = 3;
 
 var laneDepth = 4.0;
-var worldWidth = 40.0;
+var worldWidth = 100.0;
 var laneSpacing = 0.5;
 var scaleConst = 0.1;
 

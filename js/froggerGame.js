@@ -178,13 +178,25 @@ function render() {
 
 function drawEnvironment() {
 	var grassColor = this.color = vec4(144/255, 212/255, 145/255, 1.0);
-	var waterColor;
+	var waterColor = this.color = vec4(144/255, 172/255, 212/255, 1.0);
 
-	var mvNearBank = mult(mv,translate(0,-2*scaleConst,0));
-	mvNearBank = mult(mvNearBank,scalem(worldWidth*scaleConst,4.0*scaleConst,((numCarLanes+2)*laneDepth+(numCarLanes+1)*laneSpacing)*scaleConst));
+	var laneHeight = 4*scaleConst;
+	var grassHeight = 3.5*scaleConst;
+	var waterHeight = 3*scaleConst;
+	var maxWorldHeight = 4*scaleConst;
+	
+	var nearBankDepth = ((numCarLanes+2)*laneDepth+(numCarLanes+1)*laneSpacing)*scaleConst;
+	var waterDepth = nearBankDepth+(10);
+	var farBankDepth = 0;
+	
+	// Draw near-bank
+	var mvNearBank = mult(mv,translate(0,-maxWorldHeight,(nearBankDepth-laneDepth*scaleConst)/2));
+	mvNearBank = mult(mvNearBank,scalem(worldWidth*scaleConst,grassHeight,nearBankDepth));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvNearBank));
     gl.uniform4fv(colLoc, flatten(grassColor));
     gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+	
+	
 	var mvRiver = mult(mv,mat4());
 	var mvFarBank = mult(mv,mat4());
     return;
