@@ -8,7 +8,8 @@ var entityManager = {
 	_occupyingLane : [], // number of cars occupying the lane
     _laneCooldown : [], 
     _laneVelocity : [], // velocity for this lane
-	_maxLane : 2,
+	_maxLane : 3,
+	_minLane : 1,
     KILL_ME_NOW : -1,
 
 	// PUBLIC METHODS
@@ -35,16 +36,15 @@ var entityManager = {
         this._laneVelocity = [0.0, 0.2, -0.1, 0.3, 0.0, 0.1, -0.3, 0.2, -0.2];
 	},
 
-	generateCar : function() {
-		var randomLane = randomInt(1, numCarLanes);
-		this._cars.push(new Car({lane: randomLane, vel: this._laneVelocity[randomLane]}))
-		this._occupyingLane[randomLane] = this._occupyingLane[randomLane]+1;
+	generateCar : function(laneNum) {
+		this._cars.push(new Car({lane: laneNum, vel: this._laneVelocity[laneNum]}))
+		this._occupyingLane[laneNum] = this._occupyingLane[laneNum]+1;
 	},
 
-	generateLog : function() {
-		var randomLane = randomInt(numCarLanes+2, numCarLanes+2+numLogLanes-1);
-		this._logs.push(new Log({lane: randomLane, vel: this._laneVelocity[randomLane]}))
-		this._occupyingLane[randomLane] = this._occupyingLane[randomLane]+1;
+	generateLog : function(laneNum) {
+		if(randomInt(1,100)>70) this._logs.push(new Turtle({lane: laneNum, vel: this._laneVelocity[laneNum]}));
+		else this._logs.push(new Log({lane: laneNum, vel: this._laneVelocity[laneNum]}));
+		this._occupyingLane[laneNum] = this._occupyingLane[laneNum]+1;
 	},
 
 	generateRandomly : function(du) {
@@ -55,13 +55,17 @@ var entityManager = {
             // Return if cooldown hasn't finished:
             if(this._laneCooldown[i] > 0) {
                 this._laneCooldown[i] = this._laneCooldown[i]-du; 
-                return;
-            }
+            } else {
             // If cooldown is ready and lane is not full, we have a 1% chance of generating a car:
-			if(this.laneNotFull(i) && randomInt(1,100) > 70) {
-                this.generateCar();
-                this._laneCooldown[i] = 30;
-            }
+				if(this._occupyingLane[i] < this._minLane){
+					this.generateCar(i);
+					this._laneCooldown[i] = 45;
+				}
+				else if (this.laneNotFull(i) && randomInt(1,100) > 85){
+					this.generateCar(i);
+					this._laneCooldown[i] = 45;
+				}
+			}
 		}
 
         // Iterate through all log lanes:
@@ -69,13 +73,17 @@ var entityManager = {
             // Return if cooldown hasn't finished:
             if(this._laneCooldown[i] > 0) {
                 this._laneCooldown[i] = this._laneCooldown[i]-du; 
-                return;
-            }
-            // If cooldown is ready and lane is not full, we have a 1% chance of generating a log:
-			if(this.laneNotFull(i) && randomInt(1,100) > 70) {
-                this.generateLog();
-                this._laneCooldown[i] = 30;
-            }
+            } else {
+            // If cooldown is ready and lane is not full, we have a 1% chance of generating a car:
+				if(this._occupyingLane[i] < this._minLane){
+					this.generateLog(i);
+					this._laneCooldown[i] = 45;
+				}
+				else if (this.laneNotFull(i) && randomInt(1,100) > 99){
+					this.generateLog(i);
+					this._laneCooldown[i] = 45;
+				}
+			}
 		}
 	},
 
@@ -99,7 +107,7 @@ var entityManager = {
 			var i = 0;
 			while (i < aCategory.length) {
 				if(aCategory[i].update(du) === this.KILL_ME_NOW) {
-					if(aCategory[i] instanceof Car || aCategory[i] instanceof Log) {
+					if(aCategory[i] instanceof Car || aCategory[i] instanceof Log || aCategory[i] instanceof Turtle) {
 						var laneNum = aCategory[i].getLane();
 						this._occupyingLane[laneNum] = this._occupyingLane[laneNum]-1;
 					}

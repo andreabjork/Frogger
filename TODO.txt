@@ -3,11 +3,11 @@ X Græja spatial-manager
 X Græja main-loop
 X Basic útfærsla á frog, log, turtle og car : Constructor, update, render
 		* ATH. Nota til að byrja með 1 VBO með kassa fyrir alla hluti eh?
-- Gera umhverfið (again, úr kössum)
-- Leyfa frosk að færast til
-- COLLISION DETECTION
-- Láta bíla, logs og þannig stuff hreyfast í aðra hvora stefnu eftir x-ás með einhverjum tilteknum hraða
-- Láta hraða bíla og staura vera mismunandi eftir braut (viðbót 1)
+X Gera umhverfið (again, úr kössum)
+X Leyfa frosk að færast til
+X COLLISION DETECTION
+X Láta bíla, logs og þannig stuff hreyfast í aðra hvora stefnu eftir x-ás með einhverjum tilteknum hraða
+X Láta hraða bíla og staura vera mismunandi eftir braut (viðbót 1)
 - Láta turtles sökkva randomly (viðbót 2)
 - Búa til flugur svo að froskurinn geti náð þeim sem stigum (viðbót 3)
 - Láta frosk og bíla vera einföld PLY líkon, þ.e. nota Clara.io ef við getum? (viðbót 4, óþörf)

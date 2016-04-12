@@ -27,13 +27,13 @@ Frog.prototype.setup = function (descr) {
 
 Frog.prototype.init = function(){
    this.cx = 0.0;
-   this.cy = 0.0;
+   this.cy = -1.0;
    this.cz = 0.0;
    this.lane = 0;
    this.vel = 0.4;
-   this.width = 4.0;
-   this.height = 4.0;
-   this.depth = 4.0;
+   this.width = 2.0;
+   this.height = 2.0;
+   this.depth = 2.0;
    this.color = vec4(51/255, 102/255, 0.0/255, 1.0); // green color
 }
 
@@ -74,8 +74,7 @@ Frog.prototype.updateLocation = function(du) {
 	
 	var newX = this.cx;
 	if(this.onLog){
-		console.log("moving with the log by "+(this.log.vel));
-		newX += this.log.vel*du;
+		newX += (this.log.vel>0?this.log.vel+(difficulty*speedIncr):this.log.vel-(difficulty*speedIncr))*du;
 	}
     if (keys[this.KEY_LEFT]) {
         newX += this.vel*du;
@@ -84,15 +83,18 @@ Frog.prototype.updateLocation = function(du) {
         newX -= this.vel*du;
     }
 	
-    if(this.outOfBounds(newX).right && newX<this.cx) return;
-	if(this.outOfBounds(newX).left && newX>this.cx) return;
-	this.cx = newX;
+    if(!(this.outOfBounds(newX).right && newX<this.cx) &&
+	   !(this.outOfBounds(newX).left && newX>this.cx)) this.cx = newX;
 	
     // Eat key for jumping over lanes because
     // we don't want the frog jumping multiple
     // lanes even though key is held down.
     if (eatKey(this.KEY_UP)) {
-        if(this.outOfBounds(this.cz+laneDepth).top) return;
+        if(this.outOfBounds(this.cz+laneDepth).top){
+			difficulty++;
+			this.die();
+			return;
+		}
         this.cz += laneDepth+laneSpacing;
 		this.lane +=1;
     }
@@ -127,12 +129,10 @@ Frog.prototype.update = function(du) {
 		var entity = colEnts[i];
 		if(entity instanceof Car){
 			//Become frog-shaped pancake!
-			console.log("Hit by a car!");
 			this.die();
 		}
-		if(entity instanceof Log){
+		if(entity instanceof Log || entity instanceof Turtle){
 			this.onLog = true;
-			//console.log("Standing on a log!");
 			this.log = entity;
 		}
 	}
@@ -141,7 +141,6 @@ Frog.prototype.update = function(du) {
 	
 	// Fall in water!
 	if(!this.onLog && inWaterLane){
-		console.log("Drowning!");
 		this.die();
 	}
 	
@@ -161,7 +160,6 @@ Frog.prototype.updateMV = function()  {
 
 var xzAngle;
 Frog.prototype.render = function() {
-	//console.log("Rendering frog");
 
     // TRANSLATE - ROTATE - SCALE in the coordinate system:
     // Translate to position

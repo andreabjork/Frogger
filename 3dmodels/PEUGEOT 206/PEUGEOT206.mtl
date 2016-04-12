@@ -1,0 +1,211 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 18.12.2014 02:05:44
+
+newmtl 03___Default
+	Ns 10.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.7176 0.7176 0.7176
+	Kd 0.7176 0.7176 0.7176
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.2512 0.2512 0.2512
+
+newmtl wire_214228153
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.8392 0.8941 0.6000
+	Kd 0.8392 0.8941 0.6000
+	Ks 0.3500 0.3500 0.3500
+
+newmtl 206_FrontLight_M
+	Ns 26.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.9300 0.9300 0.9300
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_frontlight_bottom_C.TGA
+	map_Kd Texture\206_frontlight_bottom_C.TGA
+	map_refl Texture\Map__11_VRayMap.jpg
+
+newmtl 206_Leather_M
+	Ns 39.0689
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 1.0000 1.0000 1.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_Leather_C.TGA
+	map_Kd Texture\206_Leather_C.TGA
+
+newmtl 206_glass_M
+	Ns 39.0689
+	Ni 1.5000
+	d 0.2600
+	Tr 0.7400
+	Tf 0.2600 0.2600 0.2600 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+
+newmtl 206_blackpoints_M
+	Ns 39.0689
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0667 0.0667 0.0667
+	Kd 1.0000 1.0000 1.0000
+	Ks 1.0000 1.0000 1.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_BlackPoint_C.tga
+	map_Kd Texture\206_BlackPoint_C.tga
+
+newmtl 206_backlight_M
+	Ns 39.0689
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 1.0000 1.0000 1.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_backlight_C.TGA
+	map_Kd Texture\206_backlight_C.TGA
+
+newmtl 206_frontlight_bottom_M
+	Ns 39.0689
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 1.0000 1.0000 1.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_frontlight_bottom_C.TGA
+	map_Kd Texture\206_frontlight_bottom_C.TGA
+
+newmtl 206_body_M
+	Ns 15.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.8000 0.7216 0.7216
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_Body_C.tga
+	map_Kd Texture\206_Body_C.tga
+	map_refl Texture\Map__7_VRayMap.jpg
+
+newmtl 206_Plate_M
+	Ns 39.0689
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 1.0000 1.0000 1.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_Plate_C.TGA
+	map_Kd Texture\206_Plate_C.TGA
+
+newmtl 206_logo_M
+	Ns 39.0689
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 1.0000 1.0000 1.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_logo_C.TGA
+	map_Kd Texture\206_logo_C.TGA
+
+newmtl 206_ring_M
+	Ns 74.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.3300 0.3300 0.3300
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_ring_C.TGA
+	map_Kd Texture\206_ring_C.TGA
+	map_bump Texture\206_ring_B_Normal Bump.jpg
+	map_refl Texture\Map__10_VRayMap.jpg
+
+newmtl 206_tire_side_M
+	Ns 36.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.3400 0.3400 0.3400
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_tire_side_C.TGA
+	map_Kd Texture\206_tire_side_C.TGA
+	map_bump Texture\206_tire_side_C_Normal Bump.jpg
+
+newmtl BlackPoint
+	Ns 0.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 0.7200 0.7200 0.7200
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_BlackPoint_C.tga
+	map_Kd Texture\206_BlackPoint_C.tga
+
+newmtl 206_tire_bottom_M
+	Ns 17.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.2000 0.2000 0.2000
+	Kd 1.0000 1.0000 1.0000
+	Ks 0.2600 0.2600 0.2600
+	Ke 0.0000 0.0000 0.0000
+	map_Ka Texture\206_tire_bottom_C.TGA
+	map_Kd Texture\206_tire_bottom_C.TGA
+	map_bump Texture\206_tire_bottom_C.TGA
+	bump Texture\206_tire_bottom_C.TGA

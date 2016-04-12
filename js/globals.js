@@ -33,8 +33,9 @@ var origY;
 // Viewpoint
 var zView = -2.0;
 
-// Size of our world
-var boxRadius = 6;
+// Game difficulty
+var difficulty = 0;
+var speedIncr = 0.05;
 
 // Vertices, colors and indices
 var numVertices  = 36;
