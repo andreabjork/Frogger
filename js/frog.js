@@ -112,7 +112,7 @@ Frog.prototype.update = function(du) {
 
 Frog.prototype.updateMV = function()  {
   // lookAt(eye, at, up)
-  mv = lookAt( vec3(this.cx*scaleConst, this.cy*scaleConst+1.5, this.cz*scaleConst-2.0), // eye
+  mv = lookAt( vec3(this.cx*scaleConst, this.cy*scaleConst+1.5, this.cz*scaleConst+zView), // eye
                vec3(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst+2.0),  // at
                vec3(0.0, 1.0, 0.0)); // up
     

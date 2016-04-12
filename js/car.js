@@ -33,9 +33,9 @@ Car.prototype.setup = function (descr) {
 // -------
 
 Car.prototype.moveToLane = function(lane) {
-   this.cx = -worldWidth/2 + this.width/2 + 1;
-   this.cy = 0.0;
-   this.cz = laneDepth*lane;
+   if(this.vel > 0) this.cx = -worldWidth/2 + this.width/2 + 1;
+   else this.cx = worldWidth/2 - this.width/2 - 1;
+   this.cz = laneDepth*lane + laneSpacing*lane;
 }
 
 Car.prototype.getPos = function() {
