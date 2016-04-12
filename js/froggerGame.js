@@ -179,11 +179,12 @@ function render() {
 function drawEnvironment() {
 	var grassColor = this.color = vec4(144/255, 212/255, 145/255, 1.0);
 	var waterColor = this.color = vec4(144/255, 172/255, 212/255, 1.0);
+	var laneColor = this.color = vec4(64/255, 64/255, 64/255, 1.0);
 
 	var offset = -laneDepth*scaleConst;
 	var laneHeight = 4*scaleConst;
-	var grassHeight = 3.5*scaleConst;
-	var waterHeight = 3*scaleConst;
+	var grassHeight = 3.9*scaleConst;
+	var waterHeight = 2*scaleConst;
 	var maxWorldHeight = 4*scaleConst;
 	var numPens = 6;
 	var penSegmWidth = (worldWidth/(numPens*2-1))*scaleConst;
@@ -193,6 +194,8 @@ function drawEnvironment() {
 	var waterDepth = (numLogLanes*laneDepth+(numLogLanes+1)*laneSpacing)*scaleConst;
 	var penDepth = laneDepth*scaleConst;
 	var farBankDepth = (laneDepth+laneSpacing)*scaleConst;
+	var laneDepthS = laneDepth*scaleConst;
+	var laneSpaceS = laneSpacing*scaleConst;
 	
 	// Draw near-bank //with no lane spaces on both ends
 	var mvNearBank = mult(mv,translate(0,-maxWorldHeight,(nearBankDepth+offset)/2));
@@ -200,6 +203,15 @@ function drawEnvironment() {
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvNearBank));
     gl.uniform4fv(colLoc, flatten(grassColor));
     gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+	
+	// Draw car lanes
+	for(var i=0; i<numCarLanes; i++){
+		var mvLane = mult(mv, translate(0,-maxWorldHeight,laneDepthS*(i+1)+laneSpaceS*(i+1)+(laneDepthS+offset)/2));
+		mvLane = mult(mvLane, scalem(worldWidth*scaleConst,laneHeight,laneDepthS));
+		gl.uniformMatrix4fv(mvLoc, false, flatten(mvLane));
+		gl.uniform4fv(colLoc, flatten(laneColor));
+		gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+	}
 	
 	// Draw river //wiht lane spaces on both ends of the river
 	var mvRiver = mult(mv,translate(0,-maxWorldHeight,nearBankDepth+(waterDepth+penDepth+offset)/2));

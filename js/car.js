@@ -42,6 +42,10 @@ Car.prototype.getPos = function() {
     return {posX: this.cx, posY: this.cz};
 }
 
+Car.prototype.getSize = function(){
+  return {sizeX: this.width, sizeY: this.depth};
+}
+
 Car.prototype.getSpatialID = function() {
     return this.spatialID;
 }

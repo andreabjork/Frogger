@@ -78,11 +78,11 @@ Frog.prototype.updateLocation = function(du) {
     // lanes even though key is held down.
     if (eatKey(this.KEY_UP)) {
         if(this.outOfBounds(this.cz+laneDepth).top) return;
-        this.cz += laneDepth;
+        this.cz += laneDepth+laneSpacing;
     }
     if (eatKey(this.KEY_DOWN)) {
         if(this.outOfBounds(this.cz-laneDepth).bottom) return;
-        this.cz -= laneDepth;
+        this.cz -= laneDepth+laneSpacing;
     }
 }
 
@@ -104,8 +104,13 @@ Frog.prototype.outOfBounds = function(valX) {
 Frog.prototype.update = function(du) { 
     spatialManager.unregister(this);
     this.updateLocation(du);
+	var colEnts = spatialManager.findEntitiesInRange(this);
+	for(var i=0; i<colEnts.length; i++){
+		var entity = colEnts[i];
+		if(entity instanceof Car) console.log("Hit by a car!");
+		if(entity instanceof Log) console.log("Standing on a log!");
+	}
     spatialManager.register(this);
-
 
     this.updateMV();    
 }
