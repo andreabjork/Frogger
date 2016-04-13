@@ -89,7 +89,8 @@ Log.prototype.update = function(du) {
 
 
 Log.prototype.render = function() {
-  gl.bindBuffer( gl.ARRAY_BUFFER, nBufferLOG);
+
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferLOG);
     gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
 
 

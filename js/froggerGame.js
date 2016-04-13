@@ -86,12 +86,12 @@ function initWebgl() {
     specularProduct = mult(lightSpecular, materialSpecular);
 
 
-    // get model
+    // frog model
     var PR = PlyReader();
     var plyData = PR.read("froggy.ply");
     verticesFROG = plyData.points;
     normalsFROG = plyData.normals;
-
+    // car model
     var plyData2 = PR.read("beethoven-n.ply");
     verticesCAR = plyData2.points;
     normalsCAR = plyData2.normals;
@@ -129,6 +129,7 @@ function initWebgl() {
     gl.bindBuffer( gl.ARRAY_BUFFER, nBufferTURTLE );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsTURTLE), gl.STATIC_DRAW );
 
+
     // array element buffer
     //var iBuffer = gl.createBuffer();
     //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iBuffer);
@@ -157,7 +158,6 @@ function initWebgl() {
     vBufferTURTLE = gl.createBuffer(); 
     gl.bindBuffer( gl.ARRAY_BUFFER, vBufferTURTLE );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesTURTLE), gl.STATIC_DRAW );
-
 
     vBufferCUBE = gl.createBuffer(); 
     gl.bindBuffer( gl.ARRAY_BUFFER, vBufferCUBE );

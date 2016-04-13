@@ -77,6 +77,7 @@ var numVertices  = 36;
 
 var vBufferFROG, vBufferCAR, vBufferLOG, vBufferTURTLE;
 var nBufferFROG, nBufferCAR, nBufferLOG, nBufferTURTLE, nBufferCUBE;
+
 var verticesFROG = [];
 var verticesCAR = [];
 var verticesLOG = [];
