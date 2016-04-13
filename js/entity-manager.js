@@ -9,7 +9,7 @@ var entityManager = {
     _laneCooldown : [], 
     _laneVelocity : [], // velocity for this lane
 	_maxLane : 5,
-	_minLane : 1,
+	_minLane : 2,
     KILL_ME_NOW : -1,
 
 	// PUBLIC METHODS
@@ -57,13 +57,9 @@ var entityManager = {
                 this._laneCooldown[i] = this._laneCooldown[i]-du; 
             } else {
             // If cooldown is ready and lane is not full, we have a 1% chance of generating a car:
-				if(this._occupyingLane[i] < this._minLane){
+				if(this._occupyingLane[i] < this._minLane || (this.laneNotFull(i) && randomInt(1,100) > 99)){
 					this.generateCar(i);
-					this._laneCooldown[i] = Math.abs(10/this._laneVelocity[i]);
-				}
-				else if (this.laneNotFull(i) && randomInt(1,100) > 99){
-					this.generateCar(i);
-					this._laneCooldown[i] = Math.abs(10/this._laneVelocity[i]);
+					this._laneCooldown[i] = this.getCarLaneCooldown(i);
 				}
 			}
 		}
@@ -75,16 +71,20 @@ var entityManager = {
                 this._laneCooldown[i] = this._laneCooldown[i]-du; 
             } else {
             // If cooldown is ready and lane is not full, we have a 1% chance of generating a car:
-				if(this._occupyingLane[i] < this._minLane){
+				if(this._occupyingLane[i] < this._minLane || (this.laneNotFull(i) && randomInt(1,100) > 99)){
 					this.generateLog(i);
-					this._laneCooldown[i] = 45;
-				}
-				else if (this.laneNotFull(i) && randomInt(1,100) > 99){
-					this.generateLog(i);
-					this._laneCooldown[i] = 45;
+					this._laneCooldown[i] = this.getLogLaneCooldown(i);
 				}
 			}
 		}
+	},
+	
+	getCarLaneCooldown : function(lane) {
+		return Math.abs(10/(this._laneVelocity[lane]>0?this._laneVelocity[lane]+(difficulty*speedIncr):this._laneVelocity[lane]-(difficulty*speedIncr)))
+	},
+	
+	getLogLaneCooldown : function(lane) {
+		return Math.abs(9/(this._laneVelocity[lane]>0?this._laneVelocity[lane]+(difficulty*speedIncr):this._laneVelocity[lane]-(difficulty*speedIncr)))
 	},
 
 	laneNotFull : function(lane) {
