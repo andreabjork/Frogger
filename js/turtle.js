@@ -146,8 +146,10 @@ Turtle.prototype.render = function() {
     gl.bindBuffer( gl.ARRAY_BUFFER, vBufferTURTLE );
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
     
+    
     var mvTurtle = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
-    //mvTurtle = mult(mvTurtle, rotateX(90));
+    //mvTurtle = mult(mvTurtle, rotateX(180));
+    //mvTurtle = mult(mvTurtle, rotateZteX(90));
     // Turn front to left or right depending on velocity 
     mvTurtle = mult(mvTurtle, rotateX(90));
     if(this.vel < 0) 
@@ -155,13 +157,17 @@ Turtle.prototype.render = function() {
 
 
 
-    mvTurtle = mult(mvTurtle, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleX*scaleConst));
-     
+
     normalMatrix = [
         vec3(mvTurtle[0][0], mvTurtle[0][1], mvTurtle[0][2]),
         vec3(mvTurtle[1][0], mvTurtle[1][1], mvTurtle[1][2]),
         vec3(mvTurtle[2][0], mvTurtle[2][1], mvTurtle[2][2])
     ];
+
+
+
+    mvTurtle = mult(mvTurtle, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleX*scaleConst));
+     
 
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvTurtle));
     gl.uniformMatrix3fv(normLoc, false, flatten(normalMatrix) );
