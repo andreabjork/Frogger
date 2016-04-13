@@ -74,8 +74,8 @@ var vertices = [
 
 ];*/
 
-var vBufferFROG, vBufferCAR;
-var nBufferFROG, nBufferCAR;
+var vBufferFROG, vBufferCAR, vBufferLOG, vBufferTURTLE;
+var nBufferFROG, nBufferCAR, nBufferLOG, nBufferTURTLE;
 var verticesFROG = [];
 var verticesCAR = [];
 var verticesLOG = [];

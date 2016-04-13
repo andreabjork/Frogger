@@ -87,16 +87,23 @@ function initWebgl() {
     specularProduct = mult(lightSpecular, materialSpecular);
 
 
-    // get model
+    // frog model
     var PR = PlyReader();
     var plyData = PR.read("froggy.ply");
     verticesFROG = plyData.points;
     normalsFROG = plyData.normals;
-
+    // car model
     var plyData2 = PR.read("beethoven-n.ply");
     verticesCAR = plyData2.points;
     normalsCAR = plyData2.normals;
-
+    // log model
+    var plyData3 = PR.read("Log_pine.ply");
+    verticesLOG = plyData3.points;
+    normalsLOG = plyData3.normals;
+    // turtle model
+    var plyData4 = PR.read("beethoven-n.ply");
+    verticesTURTLE = plyData4.points;
+    normalsTURTLE = plyData4.normals;
 
 
 
@@ -115,6 +122,16 @@ function initWebgl() {
     nBufferCAR = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBufferCAR );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsCAR), gl.STATIC_DRAW );
+
+    nBufferLOG = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferCAR );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsCAR), gl.STATIC_DRAW );
+    
+    nBufferTURTLE = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferCAR );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsCAR), gl.STATIC_DRAW );
+
+
 
     // array element buffer
     //var iBuffer = gl.createBuffer();
@@ -137,6 +154,13 @@ function initWebgl() {
     gl.bindBuffer( gl.ARRAY_BUFFER, vBufferCAR );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesCAR), gl.STATIC_DRAW );
 
+    vBufferLOG = gl.createBuffer(); 
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferLOG );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesLOG), gl.STATIC_DRAW );
+
+    vBufferTURTLE = gl.createBuffer(); 
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferTURTLE );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesTURTLE), gl.STATIC_DRAW );
 
     proLoc = gl.getUniformLocation( program, "projection" );
     mvLoc = gl.getUniformLocation( program, "modelview" );
