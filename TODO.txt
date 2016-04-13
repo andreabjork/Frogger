@@ -6,13 +6,13 @@ X Basic útfærsla á frog, log, turtle og car : Constructor, update, render
 X Gera umhverfið (again, úr kössum)
 X Leyfa frosk að færast til
 X COLLISION DETECTION
-- COLLISION HANDLING
+X COLLISION HANDLING
 X Láta bíla, logs og þannig stuff hreyfast í aðra hvora stefnu eftir x-ás með einhverjum tilteknum hraða
 X Láta hraða bíla og staura vera mismunandi eftir braut (viðbót 1)
-- Láta turtles sökkva randomly (viðbót 2)
-- Búa til flugur svo að froskurinn geti náð þeim sem stigum (viðbót 3)
-- Láta frosk og bíla vera einföld PLY líkon, þ.e. nota Clara.io ef við getum? (viðbót 4, óþörf)
-- Viljum kannski nota eitthvða mynstur á gangstéttina og þannig
+X Láta turtles sökkva randomly (viðbót 2)
+NEIBB Búa til flugur svo að froskurinn geti náð þeim sem stigum (viðbót 3)
+X Láta frosk og bíla vera einföld PLY líkon, þ.e. nota Clara.io ef við getum? (viðbót 4, óþörf)
+NEIBB Viljum kannski nota eitthvða mynstur á gangstéttina og þannig
 
 
 
@@ -21,15 +21,21 @@ X ÞRJÁR AKGREINAR
 X ÞRJÁR BRAUTIR FYRIR LOGS Í Á
 X FROSKUR FÆRIST TIL, ÞARF EKKI AÐ 'HOPPA'
 X FROSKINN SÉ HÆGT AÐ FÆRA YFIR GÖTU OG Á
-- FROSKUR DREPST EF BÍLL KEYRIR Á EÐA HANN DETTUR Í ÁNNA
+X FROSKUR DREPST EF BÍLL KEYRIR Á EÐA HANN DETTUR Í ÁNNA
 X ÁHORFANDI FYRIR OFAN OG AFTAN FROSK
 
 2 VIÐBÆTUR ÞURFA AÐ VERA ÚTFÆRÐAR
 - FLUGUR BIRTAST RANDOMLY, FYRIR ÞÆR FÁST AUKASTIG
-- SUMIR STAURAR ERU SKJALDBÖKUR SEM FARA Í KAF RANDOMLY
+X SUMIR STAURAR ERU SKJALDBÖKUR SEM FARA Í KAF RANDOMLY
 X BÍLAR OG STAURAR HREYFAST Á MISMUNANDI HRAÐA
-- NOTA PLY
+X NOTA PLY
 
 
 TIPS:
 LÁTA FROSKINN HREYFAST EFTIR GRIND (14X13 Í UPPHAFLEGA LEIK)
+
+
+TIL AÐ KLÁRA:
+- Finna PLY líkön
+- Setja liti á líkönin og EKKI láta hann reikna productið í hverju render, bara þegar hluturinn er búinn til og svo senda það inn
+- Láta koma einhver skilaboð þegar maður deyr um að spila aftur eða ýta á f5 eða whatever 
