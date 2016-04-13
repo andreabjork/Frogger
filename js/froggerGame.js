@@ -60,7 +60,10 @@ window.addEventListener("keyup", handleKeyup);
 // =====================
 
 function initWebgl() {
-    var canvas = document.getElementById( "gl-canvas" );
+    canvas = document.getElementById( "gl-canvas" );
+	levelDisplay = document.getElementById("level");
+	pointsDisplay = document.getElementById("points");
+	bonusPointsDisplay = document.getElementById("bpoints");
     //canvas.width = window.innerWidth;
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
@@ -167,9 +170,9 @@ function initWebgl() {
     vRendLoc = gl.getUniformLocation( program, "vRenderType");
 
     // Setjum ofanvarpsfylki hér í upphafi
-/*    var fovy = 60.0;
-var near = 0.2;
-var far = 100.0;
+	/*    var fovy = 60.0;
+	var near = 0.2;
+	var far = 100.0;
     var proj = perspective( fovy, 1.0, near, far );*/
     var proj = perspective( 90.0, 1.0, 0.2, 100.0);
     gl.uniformMatrix4fv(proLoc, false, flatten(proj));
@@ -224,6 +227,29 @@ var far = 100.0;
 
 }
 
+// ===============================
+// GAME SCORE AND DIFFICULTY LOGIC
+// ===============================
+
+function nextLevel(){
+	var levelCompletePoints = 100+bonusPoints();
+	difficulty += 1;
+	points += levelCompletePoints;
+	
+	// Update info
+	levelDisplay.innerHTML = (difficulty+1);
+	pointsDisplay.innerHTML = points;
+	
+	levelStartTime = (new Date()).getTime();
+}
+
+function bonusPoints(){
+	var parTime = 15; // 15 seconds is par for the course
+	var currentTime = (new Date()).getTime();
+	var timeDifference = Math.round((currentTime-levelStartTime)/1000); // The time it took to complete the level
+	var bonusPoints = Math.max(parTime-timeDifference,0)*100;
+	return bonusPoints;
+}
 
 
 // ========================
@@ -246,6 +272,9 @@ function update(dt) {
     
     entityManager.update(du); 
     
+	// update bonus points view
+	bonusPointsDisplay.innerHTML = bonusPoints();
+	
     g_prevUpdateDt = original_dt;
     g_prevUpdateDu = du;
 }
@@ -258,7 +287,7 @@ function render() {
     // mv = lookAt( vec3(0.0, 1.0, zView), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0) );
     // mv will be initialized by entity manager
     var at = vec3(0.0, 0.0, 0.0);
-var up = vec3(0.0, 1.0, 0.0);
+	var up = vec3(0.0, 1.0, 0.0);
     //mv = lookAt( vec3(0.0, 0.0, zView), at, up ); /*lookAt( vec3(this.cx*scaleConst, this.cy*scaleConst+1.5, this.cz*scaleConst+zView), // eye
                //vec3(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst+2.0),  // at
                //vec3(0.0, 1.0, 0.0)); // up*/
@@ -269,7 +298,7 @@ var up = vec3(0.0, 1.0, 0.0);
     drawEnvironment();
 
     // The core rendering of the actual simulation
-    entityManager.render();
+    entityManager.render();	
 }
 
 function drawEnvironment() {
