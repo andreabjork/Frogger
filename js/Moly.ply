@@ -1,0 +1,10 @@
+ply
+format ascii 1.0
+Created by Open Asset Import Library - http://assimp.sf.net (v3.0.1262)
+element vertex 0
+property float x
+property float y
+property float z
+element face 0
+property list uint uint vertex_indices
+end_header

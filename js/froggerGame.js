@@ -75,7 +75,6 @@ function initWebgl() {
     gl.enable(gl.CULL_FACE);
     gl.cullFace(gl.BACK);
 
-
     //  Load shaders and initialize attribute buffers
     var program = initShaders( gl, "vertex-shader", "fragment-shader" );
     gl.useProgram( program );
@@ -97,7 +96,13 @@ function initWebgl() {
     verticesCAR = plyData2.points;
     normalsCAR = plyData2.normals;
 
+    var plyData3 = PR.read("beethoven-n.ply");
+    verticesLOG = plyData3.points;
+    normalsLOG = plyData3.normals;
 
+    var plyData4 = PR.read("beethoven-n.ply");
+    verticesLOG = plyData4.points;
+    normalsLOG = plyData4.normals;
 
 
     // ==============================
@@ -115,6 +120,14 @@ function initWebgl() {
     nBufferCAR = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBufferCAR );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsCAR), gl.STATIC_DRAW );
+
+    nBufferLOG = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferLOG );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsLOG), gl.STATIC_DRAW );
+
+    nBufferTURTLE = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferTURTLE );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsTURTLE), gl.STATIC_DRAW );
 
     // array element buffer
     //var iBuffer = gl.createBuffer();
@@ -137,10 +150,27 @@ function initWebgl() {
     gl.bindBuffer( gl.ARRAY_BUFFER, vBufferCAR );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesCAR), gl.STATIC_DRAW );
 
+    vBufferLOG = gl.createBuffer(); 
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferLOG );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesLOG), gl.STATIC_DRAW );
+
+    vBufferTURTLE = gl.createBuffer(); 
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferTURTLE );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesTURTLE), gl.STATIC_DRAW );
+
+
+    vBufferCUBE = gl.createBuffer(); 
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferCUBE );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(verticesCUBE), gl.STATIC_DRAW );
+
+    colLoc = gl.getUniformLocation( program, "vColor" );
+
 
     proLoc = gl.getUniformLocation( program, "projection" );
     mvLoc = gl.getUniformLocation( program, "modelview" );
     normLoc = gl.getUniformLocation( program, "normalMatrix" );
+    fRendLoc = gl.getUniformLocation( program, "fRenderType");
+    vRendLoc = gl.getUniformLocation( program, "vRenderType");
 
     // Setjum ofanvarpsfylki hér í upphafi
 /*    var fovy = 60.0;
@@ -232,13 +262,18 @@ var up = vec3(0.0, 1.0, 0.0);
     mv = mult( mv, rotateY(spinY) );
 
 
-    //drawEnvironment();
+    drawEnvironment();
 
     // The core rendering of the actual simulation
     entityManager.render();
 }
 
 function drawEnvironment() {
+    gl.uniform1i( fRendLoc, 1);
+    gl.uniform1i( vRendLoc, 1);
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferCUBE );
+    gl.vertexAttribPointer( vPosition, 3, gl.FLOAT, false, 0, 0 );
+
 	var grassColor = this.color = vec4(144/255, 212/255, 145/255, 1.0);
 	var waterColor = this.color = vec4(144/255, 172/255, 212/255, 1.0);
 	var laneColor = this.color = vec4(64/255, 64/255, 64/255, 1.0);
@@ -264,7 +299,7 @@ function drawEnvironment() {
 	mvNearBank = mult(mvNearBank,scalem(worldWidth*scaleConst,grassHeight,nearBankDepth));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvNearBank));
     gl.uniform4fv(colLoc, flatten(grassColor));
-    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+    gl.drawArrays(gl.TRIANGLES, 0, numVertices);
 	
 	// Draw car lanes
 	for(var i=0; i<numCarLanes; i++){
@@ -272,7 +307,7 @@ function drawEnvironment() {
 		mvLane = mult(mvLane, scalem(worldWidth*scaleConst,laneHeight,laneDepthS));
 		gl.uniformMatrix4fv(mvLoc, false, flatten(mvLane));
 		gl.uniform4fv(colLoc, flatten(laneColor));
-		gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+		gl.drawArrays(gl.TRIANGLES, 0, numVertices);
 	}
 	
 	// Draw river //wiht lane spaces on both ends of the river
@@ -280,7 +315,7 @@ function drawEnvironment() {
 	mvRiver = mult(mvRiver,scalem(worldWidth*scaleConst,waterHeight,waterDepth+penDepth));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvRiver));
     gl.uniform4fv(colLoc, flatten(waterColor));
-    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+    gl.drawArrays(gl.TRIANGLES, 0, numVertices);
 	
 	//Draw pens (grass nubbins)
 	for(var i=0; i<numPens; i++){
@@ -288,7 +323,7 @@ function drawEnvironment() {
 		mvPenGrass = mult(mvPenGrass,scalem(penSegmWidth,grassHeight,penDepth));
 		gl.uniformMatrix4fv(mvLoc, false, flatten(mvPenGrass));
 		gl.uniform4fv(colLoc, flatten(grassColor));
-		gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+		gl.drawArrays(gl.TRIANGLES, 0, numVertices);
 	}
 	
 	// Draw far-bank //with lane space before
@@ -296,7 +331,7 @@ function drawEnvironment() {
 	mvFarBank = mult(mvFarBank,scalem(worldWidth*scaleConst,grassHeight,farBankDepth));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvFarBank));
     gl.uniform4fv(colLoc, flatten(grassColor));
-    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+    gl.drawArrays(gl.TRIANGLES, 0, numVertices);
 }
 
 

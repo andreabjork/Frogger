@@ -16,9 +16,9 @@ function Frog(descr) {
    this.cy = 0.0;
    this.cz = 0.0;
    this.vel = 0.4;
-   this.width = 4.0;
-   this.height = 4.0;
-   this.depth = 4.0;
+   this.width = 1.0;
+   this.height = 2.0;
+   this.depth = 0.8;
    this.color = vec4(51/255, 102/255, 0.0/255, 1.0); // green color
    this.setup(descr);
 

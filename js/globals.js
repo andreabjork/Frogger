@@ -27,6 +27,7 @@ var scaleConst = 0.1;
 var proLoc;
 var mvLoc;
 var normLoc;
+var fRendLoc, vRendLoc;
 
 // Vars for mouse interaction and rotation
 var movement = false;     // Er mÃºsarhnappur niÃ°ri?
@@ -60,8 +61,8 @@ var boxRadius = 6;
 // Vertices, colors and indices
 var numVertices  = 36;
 
-/*
-var vertices = [
+
+/*var verticesCUBE = [
 // Cube
     vec3( -0.5, -0.5,  0.5), // far bottom right
     vec3( -0.5,  0.5,  0.5), // far top right
@@ -74,29 +75,31 @@ var vertices = [
 
 ];*/
 
-var vBufferFROG, vBufferCAR;
-var nBufferFROG, nBufferCAR;
+var vBufferFROG, vBufferCAR, vBufferLOG, vBufferTURTLE;
+var nBufferFROG, nBufferCAR, nBufferLOG, nBufferTURTLE, nBufferCUBE;
 var verticesFROG = [];
 var verticesCAR = [];
 var verticesLOG = [];
+var verticesTURTLE = [];
 var normalsFROG = [];
 var normalsCAR = [];
 var normalsLOG = [];
+var normalsTURTLE = [];
 
 // indices of the 12 triangles that compise the cube
-var indices = [
-    1, 0, 3,
-    3, 2, 1,
-    2, 3, 7,
-    7, 6, 2,
-    3, 0, 4,
-    4, 7, 3,
-    6, 5, 1,
-    1, 2, 6,
-    4, 5, 6,
-    6, 7, 4,
-    5, 4, 0,
-    0, 1, 5
+var verticesCUBE = [
+    vec3( -0.5,  0.5,  0.5), vec3( -0.5, -0.5,  0.5), vec3(  0.5, -0.5,  0.5),
+    vec3(  0.5, -0.5,  0.5), vec3(  0.5,  0.5,  0.5), vec3( -0.5,  0.5,  0.5),
+    vec3(  0.5,  0.5,  0.5), vec3(  0.5, -0.5,  0.5), vec3(  0.5, -0.5, -0.5),
+    vec3(  0.5, -0.5, -0.5), vec3(  0.5,  0.5, -0.5), vec3(  0.5,  0.5,  0.5),
+    vec3(  0.5, -0.5,  0.5), vec3( -0.5, -0.5,  0.5), vec3( -0.5, -0.5, -0.5),
+    vec3( -0.5, -0.5, -0.5), vec3(  0.5, -0.5, -0.5), vec3(  0.5, -0.5,  0.5),
+    vec3(  0.5,  0.5, -0.5), vec3( -0.5,  0.5, -0.5), vec3( -0.5,  0.5,  0.5),
+    vec3( -0.5,  0.5,  0.5), vec3(  0.5,  0.5,  0.5), vec3(  0.5,  0.5, -0.5),
+    vec3( -0.5, -0.5, -0.5), vec3( -0.5,  0.5, -0.5), vec3(  0.5,  0.5, -0.5),
+    vec3(  0.5,  0.5, -0.5), vec3(  0.5, -0.5, -0.5), vec3( -0.5, -0.5, -0.5),
+    vec3( -0.5,  0.5, -0.5), vec3( -0.5, -0.5, -0.5), vec3( -0.5, -0.5,  0.5),
+    vec3( -0.5, -0.5,  0.5), vec3( -0.5,  0.5,  0.5), vec3( -0.5,  0.5, -0.5)
 ];
 
 // keys

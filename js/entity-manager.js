@@ -112,11 +112,13 @@ var entityManager = {
 		this.generateRandomly(du);
 	},
 
-	render: function(gl) {
+	render: function() {
+		    gl.uniform1i( fRendLoc, 0);
+    		gl.uniform1i( vRendLoc, 0);
 		for (var c = 0; c < this._categories.length; ++c) {
 			var aCategory = this._categories[c];
 			for (var i = 0; i < aCategory.length; ++i) {
-				if(aCategory[i] instanceof Frog || aCategory[i] instanceof Car) aCategory[i].render(gl);
+				if(aCategory[i] instanceof Frog || aCategory[i] instanceof Car|| aCategory[i] instanceof Log) aCategory[i].render(gl);
 			}
 		}
 	}
