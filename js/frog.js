@@ -125,6 +125,18 @@ Frog.prototype.updateMV = function()  {
 
 var xzAngle;
 Frog.prototype.render = function() {
+    var materialAmbient = vec4( 12/255, 69/255, 10/255, 1.0 );
+    var materialDiffuse = vec4( 127/255, 199/255, 50/255, 1.0 );
+    var materialSpecular = vec4( 242/255, 242/255, 143/255, 1.0 );
+    ambientProduct = mult(lightAmbient, materialAmbient);
+    diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    specularProduct = mult(lightSpecular, materialSpecular);
+
+    gl.uniform4fv(ambLoc , flatten(ambientProduct) );
+    gl.uniform4fv( diffLoc, flatten(diffuseProduct) );
+    gl.uniform4fv( specLoc, flatten(specularProduct) );
+
+
     gl.bindBuffer( gl.ARRAY_BUFFER, nBufferFROG);
     gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
 

@@ -27,6 +27,7 @@ var scaleConst = 0.1;
 var proLoc;
 var mvLoc;
 var normLoc;
+var ambLoc, diffLoc, specLoc;
 var fRendLoc, vRendLoc;
 
 // Vars for mouse interaction and rotation

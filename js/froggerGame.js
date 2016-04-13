@@ -80,12 +80,6 @@ function initWebgl() {
     gl.useProgram( program );
 
 
-
-    ambientProduct = mult(lightAmbient, materialAmbient);
-    diffuseProduct = mult(lightDiffuse, materialDiffuse);
-    specularProduct = mult(lightSpecular, materialSpecular);
-
-
     // frog model
     var PR = PlyReader();
     var plyData = PR.read("froggy.ply");
@@ -181,9 +175,19 @@ var far = 100.0;
     gl.uniformMatrix4fv(proLoc, false, flatten(proj));
     
 
-    gl.uniform4fv( gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct) );
-    gl.uniform4fv( gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
-    gl.uniform4fv( gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );
+
+
+    ambLoc = gl.getUniformLocation(program, "ambientProduct");
+    diffLoc = gl.getUniformLocation(program, "diffuseProduct");
+    specLoc = gl.getUniformLocation(program, "specularProduct");
+
+    ambientProduct = mult(lightAmbient, materialAmbient);
+    diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    specularProduct = mult(lightSpecular, materialSpecular);
+
+    gl.uniform4fv(ambLoc , flatten(ambientProduct) );
+    gl.uniform4fv( diffLoc, flatten(diffuseProduct) );
+    gl.uniform4fv( specLoc, flatten(specularProduct) );
     gl.uniform4fv( gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
     gl.uniform1f( gl.getUniformLocation(program, "shininess"), materialShininess );
 

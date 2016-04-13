@@ -89,6 +89,16 @@ Log.prototype.update = function(du) {
 
 
 Log.prototype.render = function() {
+var materialAmbient = vec4( 0.2, 0.0, 0.2, 1.0 );
+var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
+var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+    ambientProduct = mult(lightAmbient, materialAmbient);
+    diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    specularProduct = mult(lightSpecular, materialSpecular);
+
+    gl.uniform4fv(ambLoc , flatten(ambientProduct) );
+    gl.uniform4fv( diffLoc, flatten(diffuseProduct) );
+    gl.uniform4fv( specLoc, flatten(specularProduct) );
 
     gl.bindBuffer( gl.ARRAY_BUFFER, nBufferLOG);
     gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
