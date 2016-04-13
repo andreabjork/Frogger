@@ -246,8 +246,8 @@ function nextLevel(){
 function bonusPoints(){
 	var parTime = 15; // 15 seconds is par for the course
 	var currentTime = (new Date()).getTime();
-	var timeDifference = Math.round((currentTime-levelStartTime)/1000); // The time it took to complete the level
-	var bonusPoints = Math.max(parTime-timeDifference,0)*100;
+	var timeDifference = (currentTime-levelStartTime)/1000; // The time it took to complete the level
+	var bonusPoints = Math.round(Math.max(parTime-timeDifference,0)*100);
 	return bonusPoints;
 }
 
