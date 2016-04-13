@@ -89,9 +89,9 @@ Log.prototype.update = function(du) {
 
 
 Log.prototype.render = function() {
-var materialAmbient = vec4( 0.2, 0.0, 0.2, 1.0 );
-var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
-var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+	var materialAmbient = vec4( 0.2, 0.0, 0.2, 1.0 );
+	var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
+	var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
     ambientProduct = mult(lightAmbient, materialAmbient);
     diffuseProduct = mult(lightDiffuse, materialDiffuse);
     specularProduct = mult(lightSpecular, materialSpecular);

@@ -3,11 +3,12 @@
 // ----------------
 
 function Turtle(descr) {
+   console.log("Turtle!");
    this.lane = 1;   
    this.cx = 0.0;
    this.cy = -3.0;
-   this.diveThreshold = -4.0;
-   this.maxDive = -5.0;
+   this.diveThreshold = -5.0;
+   this.maxDive = -6.0;
    this.diving = false;
    this.diveCD = 0;
    this.diceMaxCD = 60;
@@ -118,9 +119,35 @@ Turtle.prototype.update = function(du) {
 
 
 Turtle.prototype.render = function() {
-    var mvTurtle = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
-    mvTurtle = mult(mvTurtle, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mvTurtle));
-    gl.uniform4fv(colLoc, flatten(this.color));
-    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+    var materialAmbient = vec4( 0.2, 0.0, 0.2, 1.0 );
+	var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
+	var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+    ambientProduct = mult(lightAmbient, materialAmbient);
+    diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    specularProduct = mult(lightSpecular, materialSpecular);
+
+    gl.uniform4fv(ambLoc , flatten(ambientProduct) );
+    gl.uniform4fv( diffLoc, flatten(diffuseProduct) );
+    gl.uniform4fv( specLoc, flatten(specularProduct) );
+
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferLOG);
+    gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
+
+
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferLOG );
+    gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
+    
+    var mvLog = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
+    mvLog = mult(mvLog, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
+     //console.log("Rendering frog");
+    normalMatrix = [
+        vec3(mvLog[0][0], mvLog[0][1], mvLog[0][2]),
+        vec3(mvLog[1][0], mvLog[1][1], mvLog[1][2]),
+        vec3(mvLog[2][0], mvLog[2][1], mvLog[2][2])
+    ];
+
+    gl.uniformMatrix4fv(mvLoc, false, flatten(mvLog));
+    gl.uniformMatrix3fv(normLoc, false, flatten(normalMatrix) );
+
+    gl.drawArrays( gl.TRIANGLES, 0, verticesLOG.length );
 }
