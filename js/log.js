@@ -8,9 +8,9 @@ function Log(descr) {
    this.cy = -3.0;
    this.cz = 0.0;
    this.vel = 0.4;
-   this.width = 6.0;
-   this.height = 16.0;
-   this.depth = 6.0;
+   this.width = 10.0;
+   this.height = 2.0;
+   this.depth = 3.0;
    this.colorAndShading();
    this.setup(descr);
    this.moveToLane(this.lane);
@@ -19,9 +19,9 @@ function Log(descr) {
    this.spatialID = spatialManager.getNewSpatialID();
    spatialManager.register(this);
 
-   this.plyScaleX = 0.4;
-   this.plyScaleY = 0.3;
-   this.plyScaleZ = 0.6;
+   this.plyScaleX = 0.4; // breiddin
+   this.plyScaleY = 2.2; // lengdin
+   this.plyScaleZ = 1.4; // dýptin
 }
 
 Log.prototype.setup = function (descr) {
@@ -123,7 +123,7 @@ Log.prototype.render = function() {
     else 
       mvLog = mult(mvLog, rotateZ(90)); 
 
-    mvLog = mult(mvLog, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleX*scaleConst));
+    mvLog = mult(mvLog, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleZ*scaleConst));
    
     normalMatrix = [
         vec3(mvLog[0][0], mvLog[0][1], mvLog[0][2]),

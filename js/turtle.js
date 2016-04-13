@@ -6,16 +6,16 @@ function Turtle(descr) {
    console.log("Turtle!");
    this.lane = 1;   
    this.cx = 0.0;
-   this.cy = -2.0;
-   this.diveThreshold = -5.0;
-   this.maxDive = -6.0;
+   this.cy = -2.8;
+   this.diveThreshold = -4.15;
+   this.maxDive = -4.5;
    this.diving = false;
    this.diveCD = 0;
    this.diceMaxCD = 60;
    this.cz = 0.0;
    this.vel = 0.4;
    this.subVel = 0.01;
-   this.width = 3.0;
+   this.width = 7.0;
    this.height = 2.0;
    this.depth = 3.0;
    this.colorAndShading();
@@ -28,9 +28,9 @@ function Turtle(descr) {
    spatialManager.register(this);
 
 
-   this.plyScaleX = 1.0;
-   this.plyScaleY = 1.0;
-   this.plyScaleZ = 10.0;
+   this.plyScaleX = 0.5; // width
+   this.plyScaleY = 1.0; // depth
+   this.plyScaleZ = 1.5; // height
 }
 
 Turtle.prototype.setup = function (descr) {
@@ -162,7 +162,7 @@ Turtle.prototype.render = function() {
         vec3(mvTurtle[2][0], mvTurtle[2][1], mvTurtle[2][2])
     ];
 
-	mvTurtle = mult(mvTurtle, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleX*scaleConst));
+	mvTurtle = mult(mvTurtle, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleZ*scaleConst));
 	
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvTurtle));
     gl.uniformMatrix3fv(normLoc, false, flatten(normalMatrix) );

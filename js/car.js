@@ -135,7 +135,7 @@ Car.prototype.render = function() {
     if(this.vel > 0) 
       mvCar = mult(mvCar, rotateY(180));
 
-    mvCar = mult(mvCar, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleX*scaleConst));
+    mvCar = mult(mvCar, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleZ*scaleConst));
     
     //console.log("Rendering frog");
     normalMatrix = [
