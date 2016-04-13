@@ -7,7 +7,7 @@ var gl;
 var canvas;
 var program;
 var vNormal, vPosition;
-
+var levelStartTime = (new Date()).getTime();
 
 var colLoc;
 var mv;
@@ -56,9 +56,10 @@ var ctm;
 var ambientColor, diffuseColor, specularColor;
 
 
-// Game difficulty
+// Game difficulty and score
 var difficulty = 0;
 var speedIncr = 0.05;
+var points = 0;
 
 // Vertices, colors and indices
 var numVertices  = 36;
