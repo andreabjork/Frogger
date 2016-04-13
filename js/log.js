@@ -74,7 +74,7 @@ Log.prototype.outOfBounds = function(valX) {
 // -------------
 
 Log.prototype.update = function(du) {
-	spatialManager.unregister(this);
+  spatialManager.unregister(this);
 
   // move to:
   var newX = this.cx + this.vel*du;
@@ -84,14 +84,31 @@ Log.prototype.update = function(du) {
 
   // update coordinates 
   this.cx = newX;
-	spatialManager.register(this);
+  spatialManager.register(this);
 }
 
 
 Log.prototype.render = function() {
+
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferLOG);
+    gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
+
+
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferLOG );
+    gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
+    
     var mvLog = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
     mvLog = mult(mvLog, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
+     //console.log("Rendering frog");
+    normalMatrix = [
+        vec3(mvLog[0][0], mvLog[0][1], mvLog[0][2]),
+        vec3(mvLog[1][0], mvLog[1][1], mvLog[1][2]),
+        vec3(mvLog[2][0], mvLog[2][1], mvLog[2][2])
+    ];
+
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvLog));
-    gl.uniform4fv(colLoc, flatten(this.color));
-    gl.drawElements(gl.TRIANGLES, numVertices, gl.UNSIGNED_BYTE, 0);
+    gl.uniformMatrix3fv(normLoc, false, flatten(normalMatrix) );
+
+    gl.drawArrays( gl.TRIANGLES, 0, verticesLOG.length );
+
 }
