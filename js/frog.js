@@ -28,14 +28,20 @@ Frog.prototype.setup = function (descr) {
 
 Frog.prototype.init = function(){
    this.cx = 0.0;
-   this.cy = 0.0;
+   this.cy = -1.0;
    this.cz = 0.0;
    this.lane = 0;
    this.vel = 0.4;
    this.width = 1.0;
    this.height = 2.0;
    this.depth = 0.8;
-   this.color = vec4(51/255, 102/255, 0.0/255, 1.0); // green color
+   this.dir = 1;
+   this.colorAndShading();
+
+
+   this.plyScaleX = 0.7;
+   this.plyScaleY = 0.8;
+   this.plyScaleZ = 0.5;
 }
 
 Frog.prototype.KEY_UP = 38;
@@ -65,6 +71,16 @@ Frog.prototype.die = function(){
 }
 
 
+Frog.prototype.colorAndShading = function() {
+    var materialAmbient = vec4( 12/255, 69/255, 10/255, 1.0 );
+    var materialDiffuse = vec4( 127/255, 199/255, 50/255, 1.0 );
+    var materialSpecular = vec4( 242/255, 242/255, 143/255, 1.0 );
+    this.ambientProduct = mult(lightAmbient, materialAmbient);
+    this.diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    this.specularProduct = mult(lightSpecular, materialSpecular);
+
+}
+
 // ---------------
 // COLLISION LOGIC
 // ---------------
@@ -78,9 +94,11 @@ Frog.prototype.updateLocation = function(du) {
 		newX += (this.log.vel>0?this.log.vel+(difficulty*speedIncr):this.log.vel-(difficulty*speedIncr))*du;
 	}
     if (keys[this.KEY_LEFT]) {
+        this.dir = 4;
         newX += this.vel*du;
     }
     if (keys[this.KEY_RIGHT]) {
+        this.dir = 2;
         newX -= this.vel*du;
     }
 	
@@ -91,15 +109,17 @@ Frog.prototype.updateLocation = function(du) {
     // we don't want the frog jumping multiple
     // lanes even though key is held down.
     if (eatKey(this.KEY_UP)) {
+        this.dir = 1;
         if(this.outOfBounds(this.cz+laneDepth).top){
-			difficulty++;
-			this.die();
-			return;
+  			 difficulty++;
+  			 this.die();
+  			return;
 		}
         this.cz += laneDepth+laneSpacing;
 		this.lane +=1;
     }
     if (eatKey(this.KEY_DOWN)) {
+      this.dir = 3;
         if(this.outOfBounds(this.cz-laneDepth).bottom) return;
         this.cz -= laneDepth+laneSpacing;
 		this.lane -=1;
@@ -159,19 +179,15 @@ Frog.prototype.updateMV = function()  {
     
 }
 
+
+
 var xzAngle;
 Frog.prototype.render = function() {
 
-    var materialAmbient = vec4( 12/255, 69/255, 10/255, 1.0 );
-    var materialDiffuse = vec4( 127/255, 199/255, 50/255, 1.0 );
-    var materialSpecular = vec4( 242/255, 242/255, 143/255, 1.0 );
-    ambientProduct = mult(lightAmbient, materialAmbient);
-    diffuseProduct = mult(lightDiffuse, materialDiffuse);
-    specularProduct = mult(lightSpecular, materialSpecular);
-
-    gl.uniform4fv(ambLoc , flatten(ambientProduct) );
-    gl.uniform4fv( diffLoc, flatten(diffuseProduct) );
-    gl.uniform4fv( specLoc, flatten(specularProduct) );
+    
+    gl.uniform4fv(ambLoc , flatten(this.ambientProduct) );
+    gl.uniform4fv( diffLoc, flatten(this.diffuseProduct) );
+    gl.uniform4fv( specLoc, flatten(this.specularProduct) );
 
 
     gl.bindBuffer( gl.ARRAY_BUFFER, nBufferFROG);
@@ -182,7 +198,14 @@ Frog.prototype.render = function() {
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
     
     var mvFrog = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
-    mvFrog = mult(mvFrog, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
+    if(this.dir == 2) //right
+      mvFrog = mult(mvFrog, rotateY(90));
+    else if(this.dir == 3) // down
+      mvFrog = mult(mvFrog, rotateY(180));
+    else if(this.dir == 4) // left
+        mvFrog = mult(mvFrog, rotateY(270));
+
+    mvFrog = mult(mvFrog, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleZ*scaleConst));
   
    
 	    //console.log("Rendering frog");

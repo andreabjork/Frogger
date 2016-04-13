@@ -8,16 +8,20 @@ function Log(descr) {
    this.cy = -3.0;
    this.cz = 0.0;
    this.vel = 0.4;
-   this.width = 8.0;
-   this.height = 2.0;
-   this.depth = 3.0;
-   this.color = vec4(102/255, 51/255, 0.0/255, 1.0); // brown color
+   this.width = 6.0;
+   this.height = 16.0;
+   this.depth = 6.0;
+   this.colorAndShading();
    this.setup(descr);
    this.moveToLane(this.lane);
 
    // Register to spatial Manager
    this.spatialID = spatialManager.getNewSpatialID();
    spatialManager.register(this);
+
+   this.plyScaleX = 0.4;
+   this.plyScaleY = 0.3;
+   this.plyScaleZ = 0.6;
 }
 
 Log.prototype.setup = function (descr) {
@@ -54,6 +58,15 @@ Log.prototype.getLane = function() {
   return this.lane;
 }
 
+Log.prototype.colorAndShading = function() {
+    var materialAmbient = vec4( 64/255, 32/255, 6/255, 1.0 );
+    var materialDiffuse = vec4( 94/255, 46/255, 7/255, 1.0 );
+    var materialSpecular = vec4( 173/255, 91/255, 24/255, 1.0 );
+    this.ambientProduct = mult(lightAmbient, materialAmbient);
+    this.diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    this.specularProduct = mult(lightSpecular, materialSpecular);
+
+}
 // ---------------
 // COLLISION LOGIC
 // ---------------
@@ -89,16 +102,10 @@ Log.prototype.update = function(du) {
 
 
 Log.prototype.render = function() {
-	var materialAmbient = vec4( 0.2, 0.0, 0.2, 1.0 );
-	var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
-	var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-    ambientProduct = mult(lightAmbient, materialAmbient);
-    diffuseProduct = mult(lightDiffuse, materialDiffuse);
-    specularProduct = mult(lightSpecular, materialSpecular);
 
-    gl.uniform4fv(ambLoc , flatten(ambientProduct) );
-    gl.uniform4fv( diffLoc, flatten(diffuseProduct) );
-    gl.uniform4fv( specLoc, flatten(specularProduct) );
+    gl.uniform4fv(ambLoc , flatten(this.ambientProduct) );
+    gl.uniform4fv( diffLoc, flatten(this.diffuseProduct) );
+    gl.uniform4fv( specLoc, flatten(this.specularProduct) );
 
     gl.bindBuffer( gl.ARRAY_BUFFER, nBufferLOG);
     gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
@@ -107,18 +114,29 @@ Log.prototype.render = function() {
     gl.bindBuffer( gl.ARRAY_BUFFER, vBufferLOG );
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
     
+
     var mvLog = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
-    mvLog = mult(mvLog, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
-     //console.log("Rendering frog");
+    mvLog = mult(mvLog, rotateX(-90));
+    // Turn front to left or right depending on velocity 
+    if(this.vel > 0) 
+      mvLog = mult(mvLog, rotateZ(-90)); 
+    else 
+      mvLog = mult(mvLog, rotateZ(90)); 
+
+    mvLog = mult(mvLog, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleX*scaleConst));
+   
     normalMatrix = [
         vec3(mvLog[0][0], mvLog[0][1], mvLog[0][2]),
         vec3(mvLog[1][0], mvLog[1][1], mvLog[1][2]),
         vec3(mvLog[2][0], mvLog[2][1], mvLog[2][2])
     ];
 
+    
+     //console.log("Rendering frog");
+
+
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvLog));
     gl.uniformMatrix3fv(normLoc, false, flatten(normalMatrix) );
-
     gl.drawArrays( gl.TRIANGLES, 0, verticesLOG.length );
 
 }

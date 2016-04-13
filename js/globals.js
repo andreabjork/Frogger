@@ -38,7 +38,7 @@ var origX;
 var origY;
 
 // Viewpoint
-var zView = -8.0;
+var zView = -2.5;
 
 
 

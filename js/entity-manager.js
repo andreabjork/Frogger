@@ -37,7 +37,7 @@ var entityManager = {
 	},
 
 	generateCar : function(laneNum) {
-		this._cars.push(new Car({lane: laneNum, vel: this._laneVelocity[laneNum]}))
+		this._cars.push(new Car({lane: laneNum, vel: this._laneVelocity[laneNum], randColor: randomInt(1,3)}))
 		this._occupyingLane[laneNum] = this._occupyingLane[laneNum]+1;
 	},
 

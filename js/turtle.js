@@ -6,7 +6,7 @@ function Turtle(descr) {
    console.log("Turtle!");
    this.lane = 1;   
    this.cx = 0.0;
-   this.cy = -3.0;
+   this.cy = -2.0;
    this.diveThreshold = -5.0;
    this.maxDive = -6.0;
    this.diving = false;
@@ -18,7 +18,7 @@ function Turtle(descr) {
    this.width = 3.0;
    this.height = 2.0;
    this.depth = 3.0;
-   this.color = vec4(130/255, 156/255, 65/255, 1.0); // yellowish brown color
+   this.colorAndShading();
    this.setup(descr);
    this.startCy = this.cy;
    this.moveToLane(this.lane);
@@ -26,6 +26,11 @@ function Turtle(descr) {
    // Register to spatial Manager
    this.spatialID = spatialManager.getNewSpatialID();
    spatialManager.register(this);
+
+
+   this.plyScaleX = 1.0;
+   this.plyScaleY = 1.0;
+   this.plyScaleZ = 10.0;
 }
 
 Turtle.prototype.setup = function (descr) {
@@ -62,6 +67,16 @@ Turtle.prototype.getLane = function() {
   return this.lane;
 }
 
+
+Turtle.prototype.colorAndShading = function() {
+    var materialAmbient = vec4( 59/255, 59/255, 17/255, 1.0 );
+    var materialDiffuse = vec4( 158/255, 158/255, 46/255, 1.0 );
+    var materialSpecular = vec4( 134/255, 179/255, 0/255, 1.0 );
+    this.ambientProduct = mult(lightAmbient, materialAmbient);
+    this.diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    this.specularProduct = mult(lightSpecular, materialSpecular);
+
+}
 // ---------------
 // COLLISION LOGIC
 // ---------------
@@ -119,35 +134,37 @@ Turtle.prototype.update = function(du) {
 
 
 Turtle.prototype.render = function() {
-    var materialAmbient = vec4( 0.2, 0.0, 0.2, 1.0 );
-	var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
-	var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-    ambientProduct = mult(lightAmbient, materialAmbient);
-    diffuseProduct = mult(lightDiffuse, materialDiffuse);
-    specularProduct = mult(lightSpecular, materialSpecular);
 
-    gl.uniform4fv(ambLoc , flatten(ambientProduct) );
-    gl.uniform4fv( diffLoc, flatten(diffuseProduct) );
-    gl.uniform4fv( specLoc, flatten(specularProduct) );
+    gl.uniform4fv(ambLoc , flatten(this.ambientProduct) );
+    gl.uniform4fv( diffLoc, flatten(this.diffuseProduct) );
+    gl.uniform4fv( specLoc, flatten(this.specularProduct) );
 
-    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferLOG);
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBufferTURTLE);
     gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
 
 
-    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferLOG );
+    gl.bindBuffer( gl.ARRAY_BUFFER, vBufferTURTLE );
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
     
-    var mvLog = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
-    mvLog = mult(mvLog, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
-     //console.log("Rendering frog");
+    var mvTurtle = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
+    //mvTurtle = mult(mvTurtle, rotateX(90));
+    // Turn front to left or right depending on velocity 
+    mvTurtle = mult(mvTurtle, rotateX(90));
+    if(this.vel < 0) 
+      mvTurtle = mult(mvTurtle, rotateZ(180));
+
+
+
+    mvTurtle = mult(mvTurtle, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleX*scaleConst));
+     
     normalMatrix = [
-        vec3(mvLog[0][0], mvLog[0][1], mvLog[0][2]),
-        vec3(mvLog[1][0], mvLog[1][1], mvLog[1][2]),
-        vec3(mvLog[2][0], mvLog[2][1], mvLog[2][2])
+        vec3(mvTurtle[0][0], mvTurtle[0][1], mvTurtle[0][2]),
+        vec3(mvTurtle[1][0], mvTurtle[1][1], mvTurtle[1][2]),
+        vec3(mvTurtle[2][0], mvTurtle[2][1], mvTurtle[2][2])
     ];
 
-    gl.uniformMatrix4fv(mvLoc, false, flatten(mvLog));
+    gl.uniformMatrix4fv(mvLoc, false, flatten(mvTurtle));
     gl.uniformMatrix3fv(normLoc, false, flatten(normalMatrix) );
 
-    gl.drawArrays( gl.TRIANGLES, 0, verticesLOG.length );
+    gl.drawArrays( gl.TRIANGLES, 0, verticesTURTLE.length );
 }

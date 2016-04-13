@@ -3,21 +3,26 @@
 // -------------
 
 function Car(descr) {
-   this.lane = 1;   
+   this.lane = 1;    
    this.cx = 0.0;
-   this.cy = 0.0;
+   this.cy = 1.0;
    this.cz = 0.0;
    this.vel = 0.4;
-   this.width = 6.0;
+   this.width = 10.0;
    this.height = 5.0;
    this.depth = 3.0;
-   this.color = vec4(222/255, 72/255, 31/255, 1.0); // brown color
    this.setup(descr);
    this.moveToLane(this.lane);
 
+   this.colorAndShading(this.randColor);
    // Register to spatial Manager
    this.spatialID = spatialManager.getNewSpatialID();
    spatialManager.register(this);
+
+
+   this.plyScaleX = 0.2;
+   this.plyScaleY = 0.6;
+   this.plyScaleZ = 0.6;
 }
 
 Car.prototype.setup = function (descr) {
@@ -53,6 +58,28 @@ Car.prototype.getSpatialID = function() {
 
 Car.prototype.getLane = function() {
   return this.lane;
+}
+
+Car.prototype.colorAndShading = function(randColor) {
+    var materialAmbient, materialDiffuse, materialSpecular;
+    if(randColor == 1) { // blue
+      materialAmbient = vec4( 7/255, 10/255, 145/255, 1.0 );
+      materialDiffuse = vec4( 70/255, 72/255, 184/255, 1.0 );
+      materialSpecular = vec4( 150/255, 152/255, 242/255, 1.0 );
+    } else if(randColor == 2) { // red
+      materialAmbient = vec4( 143/255, 17/255, 0/255, 1.0 );
+      materialDiffuse = vec4( 199/255, 44/255, 24/255, 1.0 );
+      materialSpecular = vec4( 235/255, 151/255, 91/255, 1.0 );
+    } else if(randColor == 3) { // purple
+      materialAmbient = vec4( 102/255, 0/255, 204/255, 1.0 );
+      materialDiffuse = vec4( 153/255, 51/255, 255/255, 1.0 );
+      materialSpecular = vec4( 191/255, 128/255, 255/255, 1.0 );
+    }
+
+    this.ambientProduct = mult(lightAmbient, materialAmbient);
+    this.diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    this.specularProduct = mult(lightSpecular, materialSpecular);
+
 }
 
 
@@ -91,16 +118,10 @@ Car.prototype.update = function(du) {
 
 
 Car.prototype.render = function() {
-var materialAmbient = vec4( 0.2, 0.0, 0.2, 1.0 );
-var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
-var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-    ambientProduct = mult(lightAmbient, materialAmbient);
-    diffuseProduct = mult(lightDiffuse, materialDiffuse);
-    specularProduct = mult(lightSpecular, materialSpecular);
+    gl.uniform4fv(ambLoc , flatten(this.ambientProduct) );
+    gl.uniform4fv( diffLoc, flatten(this.diffuseProduct) );
+    gl.uniform4fv( specLoc, flatten(this.specularProduct) );
 
-    gl.uniform4fv(ambLoc , flatten(ambientProduct) );
-    gl.uniform4fv( diffLoc, flatten(diffuseProduct) );
-    gl.uniform4fv( specLoc, flatten(specularProduct) );
     gl.bindBuffer( gl.ARRAY_BUFFER, nBufferCAR);
     gl.vertexAttribPointer(vNormal, 4, gl.FLOAT, false, 0, 0);
 
@@ -111,7 +132,10 @@ var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
 
     var mvCar = mult( mv, translate(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst));
-    mvCar = mult(mvCar, scalem(this.width*scaleConst, this.height*scaleConst, this.depth*scaleConst));
+    if(this.vel > 0) 
+      mvCar = mult(mvCar, rotateY(180));
+
+    mvCar = mult(mvCar, scalem(this.width*this.plyScaleX*scaleConst, this.height*this.plyScaleY*scaleConst, this.depth*this.plyScaleX*scaleConst));
     
     //console.log("Rendering frog");
     normalMatrix = [

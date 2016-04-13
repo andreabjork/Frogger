@@ -37,6 +37,9 @@ LÁTA FROSKINN HREYFAST EFTIR GRIND (14X13 Í UPPHAFLEGA LEIK)
 
 
 TIL AÐ KLÁRA:
-- Finna PLY líkön
-- Setja liti á líkönin og EKKI láta hann reikna productið í hverju render, bara þegar hluturinn er búinn til og svo senda það inn
+X Finna PLY líkön
+X Breyta world litum?
+X Setja liti á líkönin og EKKI láta hann reikna productið í hverju render, bara þegar hluturinn er búinn til og svo senda það inn
 - Láta koma einhver skilaboð þegar maður deyr um að spila aftur eða ýta á f5 eða whatever 
+- Laga skölun á log
+- Laga sökkv á skjaldbökum + láta þær byrja neðar

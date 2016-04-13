@@ -69,7 +69,7 @@ function initWebgl() {
     //  Configure WebGL
     //
     gl.viewport( 0, 0, canvas.width, canvas.height );
-    gl.clearColor( 0.0, 0.0, 0.0, 0.5 );
+    gl.clearColor( 230/255, 255/255, 255/255, 1.0 );
 
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.CULL_FACE);
@@ -86,17 +86,17 @@ function initWebgl() {
     verticesFROG = plyData.points;
     normalsFROG = plyData.normals;
     // car model
-    var plyData2 = PR.read("beethoven-n.ply");
+    var plyData2 = PR.read("car.ply");
     verticesCAR = plyData2.points;
     normalsCAR = plyData2.normals;
-
-    var plyData3 = PR.read("beethoven-n.ply");
+    // log model
+    var plyData3 = PR.read("Log_pine.ply");
     verticesLOG = plyData3.points;
     normalsLOG = plyData3.normals;
-
-    var plyData4 = PR.read("beethoven-n.ply");
-    verticesLOG = plyData4.points;
-    normalsLOG = plyData4.normals;
+    // turtle model
+    var plyData4 = PR.read("sea_turtle.ply");
+    verticesTURTLE = plyData4.points;
+    normalsTURTLE = plyData4.normals;
 
 
     // ==============================
@@ -278,9 +278,9 @@ function drawEnvironment() {
     gl.bindBuffer( gl.ARRAY_BUFFER, vBufferCUBE );
     gl.vertexAttribPointer( vPosition, 3, gl.FLOAT, false, 0, 0 );
 
-	var grassColor = this.color = vec4(144/255, 212/255, 145/255, 1.0);
-	var waterColor = this.color = vec4(144/255, 172/255, 212/255, 1.0);
-	var laneColor = this.color = vec4(64/255, 64/255, 64/255, 1.0);
+	var grassColor = this.color = vec4(15/255, 87/255, 15/255, 1.0);
+	var waterColor = this.color = vec4(42/255, 162/255, 162/255, 1.0);
+	var laneColor = this.color = vec4(38/255, 38/255, 38/255, 1.0);
 
 	var offset = -laneDepth*scaleConst;
 	var laneHeight = 4*scaleConst;
