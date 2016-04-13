@@ -64,6 +64,8 @@ function initWebgl() {
 	levelDisplay = document.getElementById("level");
 	pointsDisplay = document.getElementById("points");
 	bonusPointsDisplay = document.getElementById("bpoints");
+	levelDisplay.innerHTML = (difficulty+1);
+	pointsDisplay.innerHTML = points;
     //canvas.width = window.innerWidth;
     gl = WebGLUtils.setupWebGL( canvas );
     if ( !gl ) { alert( "WebGL isn't available" ); }
@@ -194,7 +196,7 @@ function initWebgl() {
     gl.uniform4fv( gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
     gl.uniform1f( gl.getUniformLocation(program, "shininess"), materialShininess );
 
-    // Atburðaföll fyrir mús
+    /* // Atburðaföll fyrir mús
     canvas.addEventListener("mousedown", function(e){
         movement = true;
         origX = e.offsetX;
@@ -222,9 +224,9 @@ function initWebgl() {
          } else {
              zView -= 0.2;
          }
-     }  );  
+     }  );  */ 
 
-
+	levelStartTime = (new Date()).getTime();
 }
 
 // ===============================
@@ -291,8 +293,8 @@ function render() {
     //mv = lookAt( vec3(0.0, 0.0, zView), at, up ); /*lookAt( vec3(this.cx*scaleConst, this.cy*scaleConst+1.5, this.cz*scaleConst+zView), // eye
                //vec3(this.cx*scaleConst, this.cy*scaleConst, this.cz*scaleConst+2.0),  // at
                //vec3(0.0, 1.0, 0.0)); // up*/
-    mv = mult( mv, rotateX(spinX) );
-    mv = mult( mv, rotateY(spinY) );
+    // mv = mult( mv, rotateX(spinX) );
+    // mv = mult( mv, rotateY(spinY) );
 
 
     drawEnvironment();

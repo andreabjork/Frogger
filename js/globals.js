@@ -7,7 +7,7 @@ var gl;
 var canvas;
 var program;
 var vNormal, vPosition;
-var levelStartTime = (new Date()).getTime();
+var levelStartTime;
 
 var colLoc;
 var mv;

@@ -111,8 +111,8 @@ Frog.prototype.updateLocation = function(du) {
     if (eatKey(this.KEY_UP)) {
         this.dir = 1;
         if(this.outOfBounds(this.cz+laneDepth).top){
-  			 difficulty++;
-  			 this.die();
+			nextLevel();
+			this.die();
   			return;
 		}
         this.cz += laneDepth+laneSpacing;
