@@ -6,7 +6,7 @@ X Basic útfærsla á frog, log, turtle og car : Constructor, update, render
 X Gera umhverfið (again, úr kössum)
 X Leyfa frosk að færast til
 X COLLISION DETECTION
-- COLLISION HANDLING
+X COLLISION HANDLING
 X Láta bíla, logs og þannig stuff hreyfast í aðra hvora stefnu eftir x-ás með einhverjum tilteknum hraða
 X Láta hraða bíla og staura vera mismunandi eftir braut (viðbót 1)
 - Láta turtles sökkva randomly (viðbót 2)

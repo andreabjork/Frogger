@@ -79,7 +79,7 @@ Car.prototype.update = function(du) {
   spatialManager.unregister(this);
 
   // move to:
-  var newX = this.cx + this.vel*du;
+  var newX = this.cx + (this.vel>0?this.vel+(difficulty*speedIncr):this.vel-(difficulty*speedIncr))*du;
 
   // check for death:
   if(this.outOfBounds(newX)) return KILL_ME_NOW;
