@@ -8,8 +8,10 @@ var entityManager = {
 	_occupyingLane : [], // number of cars occupying the lane
     _laneCooldown : [], 
     _laneVelocity : [], // velocity for this lane
-	_maxLane : 5,
-	_minLane : 2,
+	_maxCarsPerLane : 5,
+	_maxLogsPerLane : 3,
+	_minCarsPerLane : 2,
+	_minLogsPerLane : 1,
     KILL_ME_NOW : -1,
 
 	// PUBLIC METHODS
@@ -57,7 +59,7 @@ var entityManager = {
                 this._laneCooldown[i] = this._laneCooldown[i]-du; 
             } else {
             // If cooldown is ready and lane is not full, we have a 1% chance of generating a car:
-				if(this._occupyingLane[i] < this._minLane || (this.laneNotFull(i) && randomInt(1,100) > 99)){
+				if(this._occupyingLane[i] < this._minCarsPerLane || (this.carLaneNotFull(i) && randomInt(1,100) > 99)){
 					this.generateCar(i);
 					this._laneCooldown[i] = this.getCarLaneCooldown(i);
 				}
@@ -71,7 +73,7 @@ var entityManager = {
                 this._laneCooldown[i] = this._laneCooldown[i]-du; 
             } else {
             // If cooldown is ready and lane is not full, we have a 1% chance of generating a car:
-				if(this._occupyingLane[i] < this._minLane || (this.laneNotFull(i) && randomInt(1,100) > 99)){
+				if(this._occupyingLane[i] < this._minLogsPerLane || (this.logLaneNotFull(i) && randomInt(1,100) > 99)){
 					this.generateLog(i);
 					this._laneCooldown[i] = this.getLogLaneCooldown(i);
 				}
@@ -87,8 +89,12 @@ var entityManager = {
 		return Math.abs(9/(this._laneVelocity[lane]>0?this._laneVelocity[lane]+(difficulty*speedIncr):this._laneVelocity[lane]-(difficulty*speedIncr)))
 	},
 
-	laneNotFull : function(lane) {
-		return this._occupyingLane[lane] < this._maxLane;
+	logLaneNotFull : function(lane) {
+		return this._occupyingLane[lane] < this._maxLogsPerLane;
+	},
+
+	carLaneNotFull : function(lane) {
+		return this._occupyingLane[lane] < this._maxCarsPerLane;
 	},
 
 	init: function() {
