@@ -56,8 +56,9 @@ var ctm;
 var ambientColor, diffuseColor, specularColor;
 
 
-// Size of our world
-var boxRadius = 6;
+// Game difficulty
+var difficulty = 0;
+var speedIncr = 0.05;
 
 // Vertices, colors and indices
 var numVertices  = 36;

@@ -287,14 +287,11 @@ function drawEnvironment() {
 	var grassHeight = 3.9*scaleConst;
 	var waterHeight = 2*scaleConst;
 	var maxWorldHeight = 4*scaleConst;
-	var numPens = 6;
-	var penSegmWidth = (worldWidth/(numPens*2-1))*scaleConst;
 	var worldRightmost = -worldWidth*scaleConst/2;
 	
 	var nearBankDepth = ((numCarLanes+2)*laneDepth+(numCarLanes+1)*laneSpacing)*scaleConst;
 	var waterDepth = (numLogLanes*laneDepth+(numLogLanes+1)*laneSpacing)*scaleConst;
-	var penDepth = laneDepth*scaleConst;
-	var farBankDepth = (laneDepth+laneSpacing)*scaleConst;
+	var farBankDepth = (2*laneDepth+laneSpacing)*scaleConst;
 	var laneDepthS = laneDepth*scaleConst;
 	var laneSpaceS = laneSpacing*scaleConst;
 	
@@ -315,23 +312,15 @@ function drawEnvironment() {
 	}
 	
 	// Draw river //wiht lane spaces on both ends of the river
-	var mvRiver = mult(mv,translate(0,-maxWorldHeight,nearBankDepth+(waterDepth+penDepth+offset)/2));
-	mvRiver = mult(mvRiver,scalem(worldWidth*scaleConst,waterHeight,waterDepth+penDepth));
+	var mvRiver = mult(mv,translate(0,-maxWorldHeight,nearBankDepth+(waterDepth+offset)/2));
+	mvRiver = mult(mvRiver,scalem(worldWidth*scaleConst,waterHeight,waterDepth));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvRiver));
     gl.uniform4fv(colLoc, flatten(waterColor));
     gl.drawArrays(gl.TRIANGLES, 0, numVertices);
 	
-	//Draw pens (grass nubbins)
-	for(var i=0; i<numPens; i++){
-		var mvPenGrass = mult(mv,translate(worldRightmost+i*2*penSegmWidth+penSegmWidth/2,-maxWorldHeight,nearBankDepth+waterDepth+(penDepth+offset)/2));
-		mvPenGrass = mult(mvPenGrass,scalem(penSegmWidth,grassHeight,penDepth));
-		gl.uniformMatrix4fv(mvLoc, false, flatten(mvPenGrass));
-		gl.uniform4fv(colLoc, flatten(grassColor));
-		gl.drawArrays(gl.TRIANGLES, 0, numVertices);
-	}
-	
+
 	// Draw far-bank //with lane space before
-	var mvFarBank = mult(mv,translate(0,-maxWorldHeight,nearBankDepth+waterDepth+penDepth+(farBankDepth+offset)/2));
+	var mvFarBank = mult(mv,translate(0,-maxWorldHeight,nearBankDepth+waterDepth+(farBankDepth+offset)/2));
 	mvFarBank = mult(mvFarBank,scalem(worldWidth*scaleConst,grassHeight,farBankDepth));
     gl.uniformMatrix4fv(mvLoc, false, flatten(mvFarBank));
     gl.uniform4fv(colLoc, flatten(grassColor));
