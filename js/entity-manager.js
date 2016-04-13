@@ -8,7 +8,7 @@ var entityManager = {
 	_occupyingLane : [], // number of cars occupying the lane
     _laneCooldown : [], 
     _laneVelocity : [], // velocity for this lane
-	_maxLane : 3,
+	_maxLane : 5,
 	_minLane : 1,
     KILL_ME_NOW : -1,
 
@@ -59,11 +59,11 @@ var entityManager = {
             // If cooldown is ready and lane is not full, we have a 1% chance of generating a car:
 				if(this._occupyingLane[i] < this._minLane){
 					this.generateCar(i);
-					this._laneCooldown[i] = 45;
+					this._laneCooldown[i] = Math.abs(10/this._laneVelocity[i]);
 				}
-				else if (this.laneNotFull(i) && randomInt(1,100) > 85){
+				else if (this.laneNotFull(i) && randomInt(1,100) > 99){
 					this.generateCar(i);
-					this._laneCooldown[i] = 45;
+					this._laneCooldown[i] = Math.abs(10/this._laneVelocity[i]);
 				}
 			}
 		}
