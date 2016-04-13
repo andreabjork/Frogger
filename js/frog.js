@@ -72,9 +72,9 @@ Frog.prototype.die = function(){
 
 
 Frog.prototype.colorAndShading = function() {
-    var materialAmbient = vec4( 12/255, 69/255, 10/255, 1.0 );
-    var materialDiffuse = vec4( 127/255, 199/255, 50/255, 1.0 );
-    var materialSpecular = vec4( 242/255, 242/255, 143/255, 1.0 );
+    var materialAmbient = vec4( 43/255, 120/255, 14/255, 1.0 );
+    var materialDiffuse = vec4( 145/255, 227/255, 77/255, 1.0 );
+    var materialSpecular = vec4( 237/255, 237/255, 59/255, 1.0 );
     this.ambientProduct = mult(lightAmbient, materialAmbient);
     this.diffuseProduct = mult(lightDiffuse, materialDiffuse);
     this.specularProduct = mult(lightSpecular, materialSpecular);
